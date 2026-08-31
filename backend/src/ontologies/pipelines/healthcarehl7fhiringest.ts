@@ -1,0 +1,4540 @@
+/**
+ * Enterprise Data Pipeline DAG Specification: HealthcareHl7FhirIngest
+ * Domain Focus: Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization
+ * Standard: DataFlow OS Orchestration Engine
+ */
+
+export interface EnterprisePipelineDAG {
+  dagId: string;
+  pipelineName: string;
+  domain: string;
+  category: string;
+  cronSchedule: string;
+  sourceProtocol: string;
+  sinkProtocol: string;
+  batchSizeRecords: number;
+  maxParallelTasks: number;
+  slaThresholdMinutes: number;
+  retryPolicy: {
+    maxRetries: number;
+    backoffExponentialFactor: number;
+    initialDelaySeconds: number;
+    maxDelaySeconds: number;
+    retryOnTransientNetworkErrors: boolean;
+  };
+  validationAssertionsCount: number;
+  lineageTrackedColumns: string[];
+  executionEngine: string;
+  isActiveProduction: boolean;
+}
+
+export const PIPELINE_HL7_DATASET: EnterprisePipelineDAG[] = [
+  {
+    dagId: 'DAG-HL7-001',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #1',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '1 1 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 16,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-002',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #2',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '2 2 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 17,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-003',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #3',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '3 3 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 18,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-004',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #4',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '4 4 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 19,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-005',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #5',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '5 5 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 20,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-006',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #6',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '6 6 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 21,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-007',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #7',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '7 7 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 22,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-008',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #8',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '8 8 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 23,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-009',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #9',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '9 9 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 24,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-010',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #10',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '10 10 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 25,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-011',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #11',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '11 11 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 160000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 26,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-012',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #12',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '12 12 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 170000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 27,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-013',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #13',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '13 13 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 180000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 28,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-014',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #14',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '14 14 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 190000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 29,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-015',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #15',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '15 15 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 200000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 30,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-016',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #16',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '16 16 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 210000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 31,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-017',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #17',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '17 17 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 220000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 32,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-018',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #18',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '18 18 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 230000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 33,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-019',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #19',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '19 19 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 240000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 34,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-020',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #20',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '20 20 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 50000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 35,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-021',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #21',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '21 21 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 36,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-022',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #22',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '22 22 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 37,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-023',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #23',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '23 23 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 38,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-024',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #24',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '24 0 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 39,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-025',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #25',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '25 1 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 40,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-026',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #26',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '26 2 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 41,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-027',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #27',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '27 3 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 42,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-028',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #28',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '28 4 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 43,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-029',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #29',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '29 5 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 44,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-030',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #30',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '30 6 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 45,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-031',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #31',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '31 7 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 160000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 46,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-032',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #32',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '32 8 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 170000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 47,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-033',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #33',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '33 9 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 180000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 48,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-034',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #34',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '34 10 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 190000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 49,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-035',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #35',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '35 11 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 200000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 50,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-036',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #36',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '36 12 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 210000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 51,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-037',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #37',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '37 13 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 220000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 52,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-038',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #38',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '38 14 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 230000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 53,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-039',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #39',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '39 15 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 240000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 54,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-040',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #40',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '40 16 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 50000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 55,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-041',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #41',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '41 17 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 56,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-042',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #42',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '42 18 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 57,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-043',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #43',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '43 19 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 58,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-044',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #44',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '44 20 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 59,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-045',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #45',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '45 21 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 15,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-046',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #46',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '46 22 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 16,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-047',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #47',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '47 23 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 17,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-048',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #48',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '48 0 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 18,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-049',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #49',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '49 1 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 19,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-050',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #50',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '50 2 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 20,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-051',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #51',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '51 3 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 160000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 21,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-052',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #52',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '52 4 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 170000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 22,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-053',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #53',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '53 5 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 180000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 23,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-054',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #54',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '54 6 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 190000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 24,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-055',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #55',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '55 7 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 200000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 25,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-056',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #56',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '56 8 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 210000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 26,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-057',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #57',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '57 9 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 220000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 27,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-058',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #58',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '58 10 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 230000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 28,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-059',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #59',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '59 11 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 240000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 29,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-060',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #60',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '0 12 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 50000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 30,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-061',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #61',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '1 13 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 31,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-062',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #62',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '2 14 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 32,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-063',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #63',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '3 15 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 33,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-064',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #64',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '4 16 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 34,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-065',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #65',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '5 17 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 35,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-066',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #66',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '6 18 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 36,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-067',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #67',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '7 19 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 37,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-068',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #68',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '8 20 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 38,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-069',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #69',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '9 21 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 39,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-070',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #70',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '10 22 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 40,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-071',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #71',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '11 23 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 160000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 41,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-072',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #72',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '12 0 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 170000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 42,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-073',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #73',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '13 1 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 180000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 43,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-074',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #74',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '14 2 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 190000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 44,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-075',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #75',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '15 3 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 200000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 45,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-076',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #76',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '16 4 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 210000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 46,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-077',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #77',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '17 5 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 220000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 47,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-078',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #78',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '18 6 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 230000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 48,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-079',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #79',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '19 7 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 240000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 49,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-080',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #80',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '20 8 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 50000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 50,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-081',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #81',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '21 9 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 51,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-082',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #82',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '22 10 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 52,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-083',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #83',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '23 11 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 53,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-084',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #84',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '24 12 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 54,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-085',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #85',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '25 13 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 55,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-086',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #86',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '26 14 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 56,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-087',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #87',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '27 15 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 57,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-088',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #88',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '28 16 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 58,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-089',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #89',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '29 17 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 59,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-090',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #90',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '30 18 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 15,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-091',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #91',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '31 19 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 160000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 16,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-092',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #92',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '32 20 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 170000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 17,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-093',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #93',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '33 21 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 180000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 18,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-094',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #94',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '34 22 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 190000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 19,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-095',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #95',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '35 23 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 200000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 20,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-096',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #96',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '36 0 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 210000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 21,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-097',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #97',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '37 1 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 220000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 22,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-098',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #98',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '38 2 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 230000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 23,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-099',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #99',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '39 3 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 240000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 24,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-100',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #100',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '40 4 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 50000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 25,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-101',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #101',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '41 5 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 26,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-102',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #102',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '42 6 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 27,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-103',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #103',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '43 7 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 28,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-104',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #104',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '44 8 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 29,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-105',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #105',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '45 9 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 30,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-106',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #106',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '46 10 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 31,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-107',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #107',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '47 11 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 32,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-108',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #108',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '48 12 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 33,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-109',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #109',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '49 13 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 34,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-110',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #110',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '50 14 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 35,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-111',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #111',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '51 15 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 160000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 36,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-112',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #112',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '52 16 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 170000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 37,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-113',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #113',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '53 17 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 180000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 38,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-114',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #114',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '54 18 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 190000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 39,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-115',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #115',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '55 19 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 200000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 40,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-116',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #116',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '56 20 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 210000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 41,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-117',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #117',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '57 21 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 220000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 42,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-118',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #118',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '58 22 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 230000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 43,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-119',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #119',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '59 23 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 240000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 44,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-120',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #120',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '0 0 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 50000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 45,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-121',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #121',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '1 1 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 46,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-122',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #122',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '2 2 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 47,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-123',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #123',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '3 3 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 48,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-124',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #124',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '4 4 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 49,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-125',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #125',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '5 5 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 50,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-126',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #126',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '6 6 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 51,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-127',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #127',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '7 7 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 52,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-128',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #128',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '8 8 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 53,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-129',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #129',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '9 9 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 54,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-130',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #130',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '10 10 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 55,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-131',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #131',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '11 11 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 160000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 56,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-132',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #132',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '12 12 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 170000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 57,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-133',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #133',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '13 13 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 180000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 58,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-134',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #134',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '14 14 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 190000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 59,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-135',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #135',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '15 15 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 200000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 15,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-136',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #136',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '16 16 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 210000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 16,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-137',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #137',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '17 17 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 220000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 17,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-138',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #138',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '18 18 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 230000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 18,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-139',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #139',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '19 19 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 240000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 19,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-140',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #140',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '20 20 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 50000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 20,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-141',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #141',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '21 21 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 21,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-142',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #142',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '22 22 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 22,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-143',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #143',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '23 23 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 23,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-144',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #144',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '24 0 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 24,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-145',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #145',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '25 1 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 25,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-146',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #146',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '26 2 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 26,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-147',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #147',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '27 3 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 27,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-148',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #148',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '28 4 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 28,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-149',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #149',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '29 5 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 29,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-HL7-150',
+    pipelineName: 'HealthcareHl7FhirIngest Production Workflow #150',
+    domain: 'HealthcareHl7FhirIngest',
+    category: 'Electronic Health Record (EHR) HL7 v2 and FHIR R4 clinical observation ingestion and HIPAA compliant pseudonymization',
+    cronSchedule: '30 6 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 30,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  }
+];
+
+export class HL7_PipelineCatalog {
+  static search(query: string): EnterprisePipelineDAG[] {
+    const q = query.toLowerCase().trim();
+    if (!q) return PIPELINE_HL7_DATASET.slice(0, 20);
+    return PIPELINE_HL7_DATASET.filter(p => p.pipelineName.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+  }
+}
