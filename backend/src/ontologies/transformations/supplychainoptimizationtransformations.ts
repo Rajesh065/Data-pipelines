@@ -1,0 +1,5222 @@
+/**
+ * dbt SQL & Vectorized Transformation Model Registry: SupplyChainOptimizationTransformations
+ * Domain Focus: Inventory safety stock calculation, EOQ economic order quantity reorders, and supplier fulfillment lead time aggregation
+ */
+
+export interface TransformationModelSpec {
+  transformId: string;
+  modelName: string;
+  category: string;
+  sourceTables: string[];
+  targetMartTable: string;
+  materializationType: string;
+  partitionColumn: string;
+  clusterKeys: string[];
+  preHookQueries: string[];
+  postHookQueries: string[];
+  sqlExpression: string;
+  isOptimizedForSparkVectorization: boolean;
+}
+
+export const TRANSFORMATION_SCO_DATASET: TransformationModelSpec[] = [
+  {
+    transformId: 'TRSF-SCO-001',
+    modelName: 'SupplyChainOptimizationTransformations Model v1',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_1',
+      'dim_lookup.catalog_1'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_1',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_1',
+      'GRANT SELECT ON analytics_mart.sco_fact_1 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-002',
+    modelName: 'SupplyChainOptimizationTransformations Model v2',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_2',
+      'dim_lookup.catalog_2'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_2',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_2',
+      'GRANT SELECT ON analytics_mart.sco_fact_2 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-003',
+    modelName: 'SupplyChainOptimizationTransformations Model v3',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_3',
+      'dim_lookup.catalog_3'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_3',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_3',
+      'GRANT SELECT ON analytics_mart.sco_fact_3 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-004',
+    modelName: 'SupplyChainOptimizationTransformations Model v4',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_4',
+      'dim_lookup.catalog_4'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_4',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_4',
+      'GRANT SELECT ON analytics_mart.sco_fact_4 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-005',
+    modelName: 'SupplyChainOptimizationTransformations Model v5',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_5',
+      'dim_lookup.catalog_5'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_5',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_5',
+      'GRANT SELECT ON analytics_mart.sco_fact_5 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-006',
+    modelName: 'SupplyChainOptimizationTransformations Model v6',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_6',
+      'dim_lookup.catalog_6'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_6',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_6',
+      'GRANT SELECT ON analytics_mart.sco_fact_6 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-007',
+    modelName: 'SupplyChainOptimizationTransformations Model v7',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_7',
+      'dim_lookup.catalog_7'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_7',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_7',
+      'GRANT SELECT ON analytics_mart.sco_fact_7 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-008',
+    modelName: 'SupplyChainOptimizationTransformations Model v8',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_8',
+      'dim_lookup.catalog_8'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_8',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_8',
+      'GRANT SELECT ON analytics_mart.sco_fact_8 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-009',
+    modelName: 'SupplyChainOptimizationTransformations Model v9',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_9',
+      'dim_lookup.catalog_9'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_9',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_9',
+      'GRANT SELECT ON analytics_mart.sco_fact_9 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-010',
+    modelName: 'SupplyChainOptimizationTransformations Model v10',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_10',
+      'dim_lookup.catalog_10'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_10',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_10',
+      'GRANT SELECT ON analytics_mart.sco_fact_10 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-011',
+    modelName: 'SupplyChainOptimizationTransformations Model v11',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_11',
+      'dim_lookup.catalog_11'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_11',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_11',
+      'GRANT SELECT ON analytics_mart.sco_fact_11 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-012',
+    modelName: 'SupplyChainOptimizationTransformations Model v12',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_12',
+      'dim_lookup.catalog_12'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_12',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_12',
+      'GRANT SELECT ON analytics_mart.sco_fact_12 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-013',
+    modelName: 'SupplyChainOptimizationTransformations Model v13',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_13',
+      'dim_lookup.catalog_13'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_13',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_13',
+      'GRANT SELECT ON analytics_mart.sco_fact_13 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-014',
+    modelName: 'SupplyChainOptimizationTransformations Model v14',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_14',
+      'dim_lookup.catalog_14'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_14',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_14',
+      'GRANT SELECT ON analytics_mart.sco_fact_14 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-015',
+    modelName: 'SupplyChainOptimizationTransformations Model v15',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_15',
+      'dim_lookup.catalog_0'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_15',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_15',
+      'GRANT SELECT ON analytics_mart.sco_fact_15 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-016',
+    modelName: 'SupplyChainOptimizationTransformations Model v16',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_16',
+      'dim_lookup.catalog_1'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_16',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_16',
+      'GRANT SELECT ON analytics_mart.sco_fact_16 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-017',
+    modelName: 'SupplyChainOptimizationTransformations Model v17',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_17',
+      'dim_lookup.catalog_2'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_17',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_17',
+      'GRANT SELECT ON analytics_mart.sco_fact_17 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-018',
+    modelName: 'SupplyChainOptimizationTransformations Model v18',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_18',
+      'dim_lookup.catalog_3'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_18',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_18',
+      'GRANT SELECT ON analytics_mart.sco_fact_18 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-019',
+    modelName: 'SupplyChainOptimizationTransformations Model v19',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_19',
+      'dim_lookup.catalog_4'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_19',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_19',
+      'GRANT SELECT ON analytics_mart.sco_fact_19 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-020',
+    modelName: 'SupplyChainOptimizationTransformations Model v20',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_20',
+      'dim_lookup.catalog_5'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_20',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_20',
+      'GRANT SELECT ON analytics_mart.sco_fact_20 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-021',
+    modelName: 'SupplyChainOptimizationTransformations Model v21',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_21',
+      'dim_lookup.catalog_6'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_21',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_21',
+      'GRANT SELECT ON analytics_mart.sco_fact_21 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-022',
+    modelName: 'SupplyChainOptimizationTransformations Model v22',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_22',
+      'dim_lookup.catalog_7'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_22',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_22',
+      'GRANT SELECT ON analytics_mart.sco_fact_22 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-023',
+    modelName: 'SupplyChainOptimizationTransformations Model v23',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_23',
+      'dim_lookup.catalog_8'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_23',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_23',
+      'GRANT SELECT ON analytics_mart.sco_fact_23 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-024',
+    modelName: 'SupplyChainOptimizationTransformations Model v24',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_24',
+      'dim_lookup.catalog_9'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_24',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_24',
+      'GRANT SELECT ON analytics_mart.sco_fact_24 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-025',
+    modelName: 'SupplyChainOptimizationTransformations Model v25',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_0',
+      'dim_lookup.catalog_10'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_25',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_25',
+      'GRANT SELECT ON analytics_mart.sco_fact_25 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-026',
+    modelName: 'SupplyChainOptimizationTransformations Model v26',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_1',
+      'dim_lookup.catalog_11'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_26',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_26',
+      'GRANT SELECT ON analytics_mart.sco_fact_26 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-027',
+    modelName: 'SupplyChainOptimizationTransformations Model v27',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_2',
+      'dim_lookup.catalog_12'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_27',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_27',
+      'GRANT SELECT ON analytics_mart.sco_fact_27 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-028',
+    modelName: 'SupplyChainOptimizationTransformations Model v28',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_3',
+      'dim_lookup.catalog_13'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_28',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_28',
+      'GRANT SELECT ON analytics_mart.sco_fact_28 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-029',
+    modelName: 'SupplyChainOptimizationTransformations Model v29',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_4',
+      'dim_lookup.catalog_14'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_29',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_29',
+      'GRANT SELECT ON analytics_mart.sco_fact_29 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-030',
+    modelName: 'SupplyChainOptimizationTransformations Model v30',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_5',
+      'dim_lookup.catalog_0'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_0',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_0',
+      'GRANT SELECT ON analytics_mart.sco_fact_0 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-031',
+    modelName: 'SupplyChainOptimizationTransformations Model v31',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_6',
+      'dim_lookup.catalog_1'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_1',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_1',
+      'GRANT SELECT ON analytics_mart.sco_fact_1 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-032',
+    modelName: 'SupplyChainOptimizationTransformations Model v32',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_7',
+      'dim_lookup.catalog_2'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_2',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_2',
+      'GRANT SELECT ON analytics_mart.sco_fact_2 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-033',
+    modelName: 'SupplyChainOptimizationTransformations Model v33',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_8',
+      'dim_lookup.catalog_3'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_3',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_3',
+      'GRANT SELECT ON analytics_mart.sco_fact_3 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-034',
+    modelName: 'SupplyChainOptimizationTransformations Model v34',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_9',
+      'dim_lookup.catalog_4'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_4',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_4',
+      'GRANT SELECT ON analytics_mart.sco_fact_4 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-035',
+    modelName: 'SupplyChainOptimizationTransformations Model v35',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_10',
+      'dim_lookup.catalog_5'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_5',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_5',
+      'GRANT SELECT ON analytics_mart.sco_fact_5 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-036',
+    modelName: 'SupplyChainOptimizationTransformations Model v36',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_11',
+      'dim_lookup.catalog_6'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_6',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_6',
+      'GRANT SELECT ON analytics_mart.sco_fact_6 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-037',
+    modelName: 'SupplyChainOptimizationTransformations Model v37',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_12',
+      'dim_lookup.catalog_7'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_7',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_7',
+      'GRANT SELECT ON analytics_mart.sco_fact_7 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-038',
+    modelName: 'SupplyChainOptimizationTransformations Model v38',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_13',
+      'dim_lookup.catalog_8'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_8',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_8',
+      'GRANT SELECT ON analytics_mart.sco_fact_8 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-039',
+    modelName: 'SupplyChainOptimizationTransformations Model v39',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_14',
+      'dim_lookup.catalog_9'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_9',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_9',
+      'GRANT SELECT ON analytics_mart.sco_fact_9 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-040',
+    modelName: 'SupplyChainOptimizationTransformations Model v40',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_15',
+      'dim_lookup.catalog_10'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_10',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_10',
+      'GRANT SELECT ON analytics_mart.sco_fact_10 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-041',
+    modelName: 'SupplyChainOptimizationTransformations Model v41',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_16',
+      'dim_lookup.catalog_11'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_11',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_11',
+      'GRANT SELECT ON analytics_mart.sco_fact_11 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-042',
+    modelName: 'SupplyChainOptimizationTransformations Model v42',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_17',
+      'dim_lookup.catalog_12'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_12',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_12',
+      'GRANT SELECT ON analytics_mart.sco_fact_12 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-043',
+    modelName: 'SupplyChainOptimizationTransformations Model v43',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_18',
+      'dim_lookup.catalog_13'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_13',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_13',
+      'GRANT SELECT ON analytics_mart.sco_fact_13 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-044',
+    modelName: 'SupplyChainOptimizationTransformations Model v44',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_19',
+      'dim_lookup.catalog_14'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_14',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_14',
+      'GRANT SELECT ON analytics_mart.sco_fact_14 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-045',
+    modelName: 'SupplyChainOptimizationTransformations Model v45',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_20',
+      'dim_lookup.catalog_0'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_15',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_15',
+      'GRANT SELECT ON analytics_mart.sco_fact_15 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-046',
+    modelName: 'SupplyChainOptimizationTransformations Model v46',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_21',
+      'dim_lookup.catalog_1'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_16',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_16',
+      'GRANT SELECT ON analytics_mart.sco_fact_16 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-047',
+    modelName: 'SupplyChainOptimizationTransformations Model v47',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_22',
+      'dim_lookup.catalog_2'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_17',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_17',
+      'GRANT SELECT ON analytics_mart.sco_fact_17 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-048',
+    modelName: 'SupplyChainOptimizationTransformations Model v48',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_23',
+      'dim_lookup.catalog_3'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_18',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_18',
+      'GRANT SELECT ON analytics_mart.sco_fact_18 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-049',
+    modelName: 'SupplyChainOptimizationTransformations Model v49',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_24',
+      'dim_lookup.catalog_4'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_19',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_19',
+      'GRANT SELECT ON analytics_mart.sco_fact_19 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-050',
+    modelName: 'SupplyChainOptimizationTransformations Model v50',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_0',
+      'dim_lookup.catalog_5'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_20',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_20',
+      'GRANT SELECT ON analytics_mart.sco_fact_20 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-051',
+    modelName: 'SupplyChainOptimizationTransformations Model v51',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_1',
+      'dim_lookup.catalog_6'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_21',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_21',
+      'GRANT SELECT ON analytics_mart.sco_fact_21 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-052',
+    modelName: 'SupplyChainOptimizationTransformations Model v52',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_2',
+      'dim_lookup.catalog_7'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_22',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_22',
+      'GRANT SELECT ON analytics_mart.sco_fact_22 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-053',
+    modelName: 'SupplyChainOptimizationTransformations Model v53',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_3',
+      'dim_lookup.catalog_8'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_23',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_23',
+      'GRANT SELECT ON analytics_mart.sco_fact_23 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-054',
+    modelName: 'SupplyChainOptimizationTransformations Model v54',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_4',
+      'dim_lookup.catalog_9'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_24',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_24',
+      'GRANT SELECT ON analytics_mart.sco_fact_24 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-055',
+    modelName: 'SupplyChainOptimizationTransformations Model v55',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_5',
+      'dim_lookup.catalog_10'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_25',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_25',
+      'GRANT SELECT ON analytics_mart.sco_fact_25 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-056',
+    modelName: 'SupplyChainOptimizationTransformations Model v56',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_6',
+      'dim_lookup.catalog_11'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_26',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_26',
+      'GRANT SELECT ON analytics_mart.sco_fact_26 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-057',
+    modelName: 'SupplyChainOptimizationTransformations Model v57',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_7',
+      'dim_lookup.catalog_12'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_27',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_27',
+      'GRANT SELECT ON analytics_mart.sco_fact_27 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-058',
+    modelName: 'SupplyChainOptimizationTransformations Model v58',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_8',
+      'dim_lookup.catalog_13'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_28',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_28',
+      'GRANT SELECT ON analytics_mart.sco_fact_28 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-059',
+    modelName: 'SupplyChainOptimizationTransformations Model v59',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_9',
+      'dim_lookup.catalog_14'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_29',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_29',
+      'GRANT SELECT ON analytics_mart.sco_fact_29 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-060',
+    modelName: 'SupplyChainOptimizationTransformations Model v60',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_10',
+      'dim_lookup.catalog_0'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_0',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_0',
+      'GRANT SELECT ON analytics_mart.sco_fact_0 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-061',
+    modelName: 'SupplyChainOptimizationTransformations Model v61',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_11',
+      'dim_lookup.catalog_1'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_1',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_1',
+      'GRANT SELECT ON analytics_mart.sco_fact_1 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-062',
+    modelName: 'SupplyChainOptimizationTransformations Model v62',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_12',
+      'dim_lookup.catalog_2'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_2',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_2',
+      'GRANT SELECT ON analytics_mart.sco_fact_2 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-063',
+    modelName: 'SupplyChainOptimizationTransformations Model v63',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_13',
+      'dim_lookup.catalog_3'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_3',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_3',
+      'GRANT SELECT ON analytics_mart.sco_fact_3 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-064',
+    modelName: 'SupplyChainOptimizationTransformations Model v64',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_14',
+      'dim_lookup.catalog_4'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_4',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_4',
+      'GRANT SELECT ON analytics_mart.sco_fact_4 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-065',
+    modelName: 'SupplyChainOptimizationTransformations Model v65',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_15',
+      'dim_lookup.catalog_5'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_5',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_5',
+      'GRANT SELECT ON analytics_mart.sco_fact_5 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-066',
+    modelName: 'SupplyChainOptimizationTransformations Model v66',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_16',
+      'dim_lookup.catalog_6'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_6',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_6',
+      'GRANT SELECT ON analytics_mart.sco_fact_6 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-067',
+    modelName: 'SupplyChainOptimizationTransformations Model v67',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_17',
+      'dim_lookup.catalog_7'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_7',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_7',
+      'GRANT SELECT ON analytics_mart.sco_fact_7 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-068',
+    modelName: 'SupplyChainOptimizationTransformations Model v68',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_18',
+      'dim_lookup.catalog_8'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_8',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_8',
+      'GRANT SELECT ON analytics_mart.sco_fact_8 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-069',
+    modelName: 'SupplyChainOptimizationTransformations Model v69',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_19',
+      'dim_lookup.catalog_9'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_9',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_9',
+      'GRANT SELECT ON analytics_mart.sco_fact_9 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-070',
+    modelName: 'SupplyChainOptimizationTransformations Model v70',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_20',
+      'dim_lookup.catalog_10'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_10',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_10',
+      'GRANT SELECT ON analytics_mart.sco_fact_10 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-071',
+    modelName: 'SupplyChainOptimizationTransformations Model v71',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_21',
+      'dim_lookup.catalog_11'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_11',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_11',
+      'GRANT SELECT ON analytics_mart.sco_fact_11 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-072',
+    modelName: 'SupplyChainOptimizationTransformations Model v72',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_22',
+      'dim_lookup.catalog_12'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_12',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_12',
+      'GRANT SELECT ON analytics_mart.sco_fact_12 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-073',
+    modelName: 'SupplyChainOptimizationTransformations Model v73',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_23',
+      'dim_lookup.catalog_13'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_13',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_13',
+      'GRANT SELECT ON analytics_mart.sco_fact_13 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-074',
+    modelName: 'SupplyChainOptimizationTransformations Model v74',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_24',
+      'dim_lookup.catalog_14'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_14',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_14',
+      'GRANT SELECT ON analytics_mart.sco_fact_14 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-075',
+    modelName: 'SupplyChainOptimizationTransformations Model v75',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_0',
+      'dim_lookup.catalog_0'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_15',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_15',
+      'GRANT SELECT ON analytics_mart.sco_fact_15 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-076',
+    modelName: 'SupplyChainOptimizationTransformations Model v76',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_1',
+      'dim_lookup.catalog_1'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_16',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_16',
+      'GRANT SELECT ON analytics_mart.sco_fact_16 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-077',
+    modelName: 'SupplyChainOptimizationTransformations Model v77',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_2',
+      'dim_lookup.catalog_2'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_17',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_17',
+      'GRANT SELECT ON analytics_mart.sco_fact_17 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-078',
+    modelName: 'SupplyChainOptimizationTransformations Model v78',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_3',
+      'dim_lookup.catalog_3'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_18',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_18',
+      'GRANT SELECT ON analytics_mart.sco_fact_18 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-079',
+    modelName: 'SupplyChainOptimizationTransformations Model v79',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_4',
+      'dim_lookup.catalog_4'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_19',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_19',
+      'GRANT SELECT ON analytics_mart.sco_fact_19 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-080',
+    modelName: 'SupplyChainOptimizationTransformations Model v80',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_5',
+      'dim_lookup.catalog_5'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_20',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_20',
+      'GRANT SELECT ON analytics_mart.sco_fact_20 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-081',
+    modelName: 'SupplyChainOptimizationTransformations Model v81',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_6',
+      'dim_lookup.catalog_6'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_21',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_21',
+      'GRANT SELECT ON analytics_mart.sco_fact_21 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-082',
+    modelName: 'SupplyChainOptimizationTransformations Model v82',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_7',
+      'dim_lookup.catalog_7'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_22',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_22',
+      'GRANT SELECT ON analytics_mart.sco_fact_22 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-083',
+    modelName: 'SupplyChainOptimizationTransformations Model v83',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_8',
+      'dim_lookup.catalog_8'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_23',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_23',
+      'GRANT SELECT ON analytics_mart.sco_fact_23 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-084',
+    modelName: 'SupplyChainOptimizationTransformations Model v84',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_9',
+      'dim_lookup.catalog_9'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_24',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_24',
+      'GRANT SELECT ON analytics_mart.sco_fact_24 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-085',
+    modelName: 'SupplyChainOptimizationTransformations Model v85',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_10',
+      'dim_lookup.catalog_10'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_25',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_25',
+      'GRANT SELECT ON analytics_mart.sco_fact_25 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-086',
+    modelName: 'SupplyChainOptimizationTransformations Model v86',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_11',
+      'dim_lookup.catalog_11'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_26',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_26',
+      'GRANT SELECT ON analytics_mart.sco_fact_26 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-087',
+    modelName: 'SupplyChainOptimizationTransformations Model v87',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_12',
+      'dim_lookup.catalog_12'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_27',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_27',
+      'GRANT SELECT ON analytics_mart.sco_fact_27 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-088',
+    modelName: 'SupplyChainOptimizationTransformations Model v88',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_13',
+      'dim_lookup.catalog_13'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_28',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_28',
+      'GRANT SELECT ON analytics_mart.sco_fact_28 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-089',
+    modelName: 'SupplyChainOptimizationTransformations Model v89',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_14',
+      'dim_lookup.catalog_14'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_29',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_29',
+      'GRANT SELECT ON analytics_mart.sco_fact_29 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-090',
+    modelName: 'SupplyChainOptimizationTransformations Model v90',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_15',
+      'dim_lookup.catalog_0'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_0',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_0',
+      'GRANT SELECT ON analytics_mart.sco_fact_0 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-091',
+    modelName: 'SupplyChainOptimizationTransformations Model v91',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_16',
+      'dim_lookup.catalog_1'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_1',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_1',
+      'GRANT SELECT ON analytics_mart.sco_fact_1 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-092',
+    modelName: 'SupplyChainOptimizationTransformations Model v92',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_17',
+      'dim_lookup.catalog_2'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_2',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_2',
+      'GRANT SELECT ON analytics_mart.sco_fact_2 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-093',
+    modelName: 'SupplyChainOptimizationTransformations Model v93',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_18',
+      'dim_lookup.catalog_3'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_3',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_3',
+      'GRANT SELECT ON analytics_mart.sco_fact_3 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-094',
+    modelName: 'SupplyChainOptimizationTransformations Model v94',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_19',
+      'dim_lookup.catalog_4'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_4',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_4',
+      'GRANT SELECT ON analytics_mart.sco_fact_4 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-095',
+    modelName: 'SupplyChainOptimizationTransformations Model v95',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_20',
+      'dim_lookup.catalog_5'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_5',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_5',
+      'GRANT SELECT ON analytics_mart.sco_fact_5 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-096',
+    modelName: 'SupplyChainOptimizationTransformations Model v96',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_21',
+      'dim_lookup.catalog_6'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_6',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_6',
+      'GRANT SELECT ON analytics_mart.sco_fact_6 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-097',
+    modelName: 'SupplyChainOptimizationTransformations Model v97',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_22',
+      'dim_lookup.catalog_7'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_7',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_7',
+      'GRANT SELECT ON analytics_mart.sco_fact_7 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-098',
+    modelName: 'SupplyChainOptimizationTransformations Model v98',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_23',
+      'dim_lookup.catalog_8'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_8',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_8',
+      'GRANT SELECT ON analytics_mart.sco_fact_8 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-099',
+    modelName: 'SupplyChainOptimizationTransformations Model v99',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_24',
+      'dim_lookup.catalog_9'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_9',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_9',
+      'GRANT SELECT ON analytics_mart.sco_fact_9 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-100',
+    modelName: 'SupplyChainOptimizationTransformations Model v100',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_0',
+      'dim_lookup.catalog_10'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_10',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_10',
+      'GRANT SELECT ON analytics_mart.sco_fact_10 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-101',
+    modelName: 'SupplyChainOptimizationTransformations Model v101',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_1',
+      'dim_lookup.catalog_11'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_11',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_11',
+      'GRANT SELECT ON analytics_mart.sco_fact_11 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-102',
+    modelName: 'SupplyChainOptimizationTransformations Model v102',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_2',
+      'dim_lookup.catalog_12'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_12',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_12',
+      'GRANT SELECT ON analytics_mart.sco_fact_12 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-103',
+    modelName: 'SupplyChainOptimizationTransformations Model v103',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_3',
+      'dim_lookup.catalog_13'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_13',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_13',
+      'GRANT SELECT ON analytics_mart.sco_fact_13 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-104',
+    modelName: 'SupplyChainOptimizationTransformations Model v104',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_4',
+      'dim_lookup.catalog_14'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_14',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_14',
+      'GRANT SELECT ON analytics_mart.sco_fact_14 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-105',
+    modelName: 'SupplyChainOptimizationTransformations Model v105',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_5',
+      'dim_lookup.catalog_0'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_15',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_15',
+      'GRANT SELECT ON analytics_mart.sco_fact_15 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-106',
+    modelName: 'SupplyChainOptimizationTransformations Model v106',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_6',
+      'dim_lookup.catalog_1'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_16',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_16',
+      'GRANT SELECT ON analytics_mart.sco_fact_16 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-107',
+    modelName: 'SupplyChainOptimizationTransformations Model v107',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_7',
+      'dim_lookup.catalog_2'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_17',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_17',
+      'GRANT SELECT ON analytics_mart.sco_fact_17 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-108',
+    modelName: 'SupplyChainOptimizationTransformations Model v108',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_8',
+      'dim_lookup.catalog_3'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_18',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_18',
+      'GRANT SELECT ON analytics_mart.sco_fact_18 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-109',
+    modelName: 'SupplyChainOptimizationTransformations Model v109',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_9',
+      'dim_lookup.catalog_4'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_19',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_19',
+      'GRANT SELECT ON analytics_mart.sco_fact_19 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-110',
+    modelName: 'SupplyChainOptimizationTransformations Model v110',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_10',
+      'dim_lookup.catalog_5'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_20',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_20',
+      'GRANT SELECT ON analytics_mart.sco_fact_20 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-111',
+    modelName: 'SupplyChainOptimizationTransformations Model v111',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_11',
+      'dim_lookup.catalog_6'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_21',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_21',
+      'GRANT SELECT ON analytics_mart.sco_fact_21 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-112',
+    modelName: 'SupplyChainOptimizationTransformations Model v112',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_12',
+      'dim_lookup.catalog_7'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_22',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_22',
+      'GRANT SELECT ON analytics_mart.sco_fact_22 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-113',
+    modelName: 'SupplyChainOptimizationTransformations Model v113',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_13',
+      'dim_lookup.catalog_8'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_23',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_23',
+      'GRANT SELECT ON analytics_mart.sco_fact_23 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-114',
+    modelName: 'SupplyChainOptimizationTransformations Model v114',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_14',
+      'dim_lookup.catalog_9'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_24',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_24',
+      'GRANT SELECT ON analytics_mart.sco_fact_24 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-115',
+    modelName: 'SupplyChainOptimizationTransformations Model v115',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_15',
+      'dim_lookup.catalog_10'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_25',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_25',
+      'GRANT SELECT ON analytics_mart.sco_fact_25 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-116',
+    modelName: 'SupplyChainOptimizationTransformations Model v116',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_16',
+      'dim_lookup.catalog_11'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_26',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_26',
+      'GRANT SELECT ON analytics_mart.sco_fact_26 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-117',
+    modelName: 'SupplyChainOptimizationTransformations Model v117',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_17',
+      'dim_lookup.catalog_12'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_27',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_27',
+      'GRANT SELECT ON analytics_mart.sco_fact_27 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-118',
+    modelName: 'SupplyChainOptimizationTransformations Model v118',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_18',
+      'dim_lookup.catalog_13'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_28',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_28',
+      'GRANT SELECT ON analytics_mart.sco_fact_28 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-119',
+    modelName: 'SupplyChainOptimizationTransformations Model v119',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_19',
+      'dim_lookup.catalog_14'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_29',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_29',
+      'GRANT SELECT ON analytics_mart.sco_fact_29 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-120',
+    modelName: 'SupplyChainOptimizationTransformations Model v120',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_20',
+      'dim_lookup.catalog_0'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_0',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_0',
+      'GRANT SELECT ON analytics_mart.sco_fact_0 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-121',
+    modelName: 'SupplyChainOptimizationTransformations Model v121',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_21',
+      'dim_lookup.catalog_1'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_1',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_1',
+      'GRANT SELECT ON analytics_mart.sco_fact_1 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-122',
+    modelName: 'SupplyChainOptimizationTransformations Model v122',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_22',
+      'dim_lookup.catalog_2'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_2',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_2',
+      'GRANT SELECT ON analytics_mart.sco_fact_2 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-123',
+    modelName: 'SupplyChainOptimizationTransformations Model v123',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_23',
+      'dim_lookup.catalog_3'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_3',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_3',
+      'GRANT SELECT ON analytics_mart.sco_fact_3 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-124',
+    modelName: 'SupplyChainOptimizationTransformations Model v124',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_24',
+      'dim_lookup.catalog_4'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_4',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_4',
+      'GRANT SELECT ON analytics_mart.sco_fact_4 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-125',
+    modelName: 'SupplyChainOptimizationTransformations Model v125',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_0',
+      'dim_lookup.catalog_5'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_5',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_5',
+      'GRANT SELECT ON analytics_mart.sco_fact_5 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-126',
+    modelName: 'SupplyChainOptimizationTransformations Model v126',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_1',
+      'dim_lookup.catalog_6'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_6',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_6',
+      'GRANT SELECT ON analytics_mart.sco_fact_6 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-127',
+    modelName: 'SupplyChainOptimizationTransformations Model v127',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_2',
+      'dim_lookup.catalog_7'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_7',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_7',
+      'GRANT SELECT ON analytics_mart.sco_fact_7 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-128',
+    modelName: 'SupplyChainOptimizationTransformations Model v128',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_3',
+      'dim_lookup.catalog_8'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_8',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_8',
+      'GRANT SELECT ON analytics_mart.sco_fact_8 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-129',
+    modelName: 'SupplyChainOptimizationTransformations Model v129',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_4',
+      'dim_lookup.catalog_9'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_9',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_9',
+      'GRANT SELECT ON analytics_mart.sco_fact_9 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-130',
+    modelName: 'SupplyChainOptimizationTransformations Model v130',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_5',
+      'dim_lookup.catalog_10'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_10',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_10',
+      'GRANT SELECT ON analytics_mart.sco_fact_10 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-131',
+    modelName: 'SupplyChainOptimizationTransformations Model v131',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_6',
+      'dim_lookup.catalog_11'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_11',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_11',
+      'GRANT SELECT ON analytics_mart.sco_fact_11 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-132',
+    modelName: 'SupplyChainOptimizationTransformations Model v132',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_7',
+      'dim_lookup.catalog_12'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_12',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_12',
+      'GRANT SELECT ON analytics_mart.sco_fact_12 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-133',
+    modelName: 'SupplyChainOptimizationTransformations Model v133',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_8',
+      'dim_lookup.catalog_13'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_13',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_13',
+      'GRANT SELECT ON analytics_mart.sco_fact_13 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-134',
+    modelName: 'SupplyChainOptimizationTransformations Model v134',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_9',
+      'dim_lookup.catalog_14'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_14',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_14',
+      'GRANT SELECT ON analytics_mart.sco_fact_14 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-135',
+    modelName: 'SupplyChainOptimizationTransformations Model v135',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_10',
+      'dim_lookup.catalog_0'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_15',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_15',
+      'GRANT SELECT ON analytics_mart.sco_fact_15 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-136',
+    modelName: 'SupplyChainOptimizationTransformations Model v136',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_11',
+      'dim_lookup.catalog_1'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_16',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_16',
+      'GRANT SELECT ON analytics_mart.sco_fact_16 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-137',
+    modelName: 'SupplyChainOptimizationTransformations Model v137',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_12',
+      'dim_lookup.catalog_2'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_17',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_17',
+      'GRANT SELECT ON analytics_mart.sco_fact_17 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-138',
+    modelName: 'SupplyChainOptimizationTransformations Model v138',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_13',
+      'dim_lookup.catalog_3'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_18',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_18',
+      'GRANT SELECT ON analytics_mart.sco_fact_18 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-139',
+    modelName: 'SupplyChainOptimizationTransformations Model v139',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_14',
+      'dim_lookup.catalog_4'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_19',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_19',
+      'GRANT SELECT ON analytics_mart.sco_fact_19 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-140',
+    modelName: 'SupplyChainOptimizationTransformations Model v140',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_15',
+      'dim_lookup.catalog_5'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_20',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_20',
+      'GRANT SELECT ON analytics_mart.sco_fact_20 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-141',
+    modelName: 'SupplyChainOptimizationTransformations Model v141',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_16',
+      'dim_lookup.catalog_6'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_21',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_21',
+      'GRANT SELECT ON analytics_mart.sco_fact_21 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-142',
+    modelName: 'SupplyChainOptimizationTransformations Model v142',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_17',
+      'dim_lookup.catalog_7'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_22',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_22',
+      'GRANT SELECT ON analytics_mart.sco_fact_22 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-143',
+    modelName: 'SupplyChainOptimizationTransformations Model v143',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_18',
+      'dim_lookup.catalog_8'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_23',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_23',
+      'GRANT SELECT ON analytics_mart.sco_fact_23 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-144',
+    modelName: 'SupplyChainOptimizationTransformations Model v144',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_19',
+      'dim_lookup.catalog_9'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_24',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_24',
+      'GRANT SELECT ON analytics_mart.sco_fact_24 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-145',
+    modelName: 'SupplyChainOptimizationTransformations Model v145',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_20',
+      'dim_lookup.catalog_10'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_25',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_25',
+      'GRANT SELECT ON analytics_mart.sco_fact_25 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-146',
+    modelName: 'SupplyChainOptimizationTransformations Model v146',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_21',
+      'dim_lookup.catalog_11'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_26',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_26',
+      'GRANT SELECT ON analytics_mart.sco_fact_26 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-147',
+    modelName: 'SupplyChainOptimizationTransformations Model v147',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_22',
+      'dim_lookup.catalog_12'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_27',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_27',
+      'GRANT SELECT ON analytics_mart.sco_fact_27 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-148',
+    modelName: 'SupplyChainOptimizationTransformations Model v148',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_23',
+      'dim_lookup.catalog_13'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_28',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_28',
+      'GRANT SELECT ON analytics_mart.sco_fact_28 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-149',
+    modelName: 'SupplyChainOptimizationTransformations Model v149',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_24',
+      'dim_lookup.catalog_14'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_29',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_29',
+      'GRANT SELECT ON analytics_mart.sco_fact_29 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-150',
+    modelName: 'SupplyChainOptimizationTransformations Model v150',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_0',
+      'dim_lookup.catalog_0'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_0',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_0',
+      'GRANT SELECT ON analytics_mart.sco_fact_0 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-151',
+    modelName: 'SupplyChainOptimizationTransformations Model v151',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_1',
+      'dim_lookup.catalog_1'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_1',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_1',
+      'GRANT SELECT ON analytics_mart.sco_fact_1 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-152',
+    modelName: 'SupplyChainOptimizationTransformations Model v152',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_2',
+      'dim_lookup.catalog_2'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_2',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_2',
+      'GRANT SELECT ON analytics_mart.sco_fact_2 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-153',
+    modelName: 'SupplyChainOptimizationTransformations Model v153',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_3',
+      'dim_lookup.catalog_3'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_3',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_3',
+      'GRANT SELECT ON analytics_mart.sco_fact_3 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-154',
+    modelName: 'SupplyChainOptimizationTransformations Model v154',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_4',
+      'dim_lookup.catalog_4'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_4',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_4',
+      'GRANT SELECT ON analytics_mart.sco_fact_4 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-155',
+    modelName: 'SupplyChainOptimizationTransformations Model v155',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_5',
+      'dim_lookup.catalog_5'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_5',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_5',
+      'GRANT SELECT ON analytics_mart.sco_fact_5 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-156',
+    modelName: 'SupplyChainOptimizationTransformations Model v156',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_6',
+      'dim_lookup.catalog_6'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_6',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_6',
+      'GRANT SELECT ON analytics_mart.sco_fact_6 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-157',
+    modelName: 'SupplyChainOptimizationTransformations Model v157',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_7',
+      'dim_lookup.catalog_7'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_7',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_7',
+      'GRANT SELECT ON analytics_mart.sco_fact_7 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-158',
+    modelName: 'SupplyChainOptimizationTransformations Model v158',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_8',
+      'dim_lookup.catalog_8'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_8',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_8',
+      'GRANT SELECT ON analytics_mart.sco_fact_8 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-159',
+    modelName: 'SupplyChainOptimizationTransformations Model v159',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_9',
+      'dim_lookup.catalog_9'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_9',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_9',
+      'GRANT SELECT ON analytics_mart.sco_fact_9 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-160',
+    modelName: 'SupplyChainOptimizationTransformations Model v160',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_10',
+      'dim_lookup.catalog_10'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_10',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_10',
+      'GRANT SELECT ON analytics_mart.sco_fact_10 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-161',
+    modelName: 'SupplyChainOptimizationTransformations Model v161',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_11',
+      'dim_lookup.catalog_11'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_11',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_11',
+      'GRANT SELECT ON analytics_mart.sco_fact_11 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-162',
+    modelName: 'SupplyChainOptimizationTransformations Model v162',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_12',
+      'dim_lookup.catalog_12'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_12',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_12',
+      'GRANT SELECT ON analytics_mart.sco_fact_12 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-163',
+    modelName: 'SupplyChainOptimizationTransformations Model v163',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_13',
+      'dim_lookup.catalog_13'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_13',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_13',
+      'GRANT SELECT ON analytics_mart.sco_fact_13 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-164',
+    modelName: 'SupplyChainOptimizationTransformations Model v164',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_14',
+      'dim_lookup.catalog_14'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_14',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_14',
+      'GRANT SELECT ON analytics_mart.sco_fact_14 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-165',
+    modelName: 'SupplyChainOptimizationTransformations Model v165',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_15',
+      'dim_lookup.catalog_0'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_15',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_15',
+      'GRANT SELECT ON analytics_mart.sco_fact_15 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-166',
+    modelName: 'SupplyChainOptimizationTransformations Model v166',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_16',
+      'dim_lookup.catalog_1'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_16',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_16',
+      'GRANT SELECT ON analytics_mart.sco_fact_16 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-167',
+    modelName: 'SupplyChainOptimizationTransformations Model v167',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_17',
+      'dim_lookup.catalog_2'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_17',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_17',
+      'GRANT SELECT ON analytics_mart.sco_fact_17 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-168',
+    modelName: 'SupplyChainOptimizationTransformations Model v168',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_18',
+      'dim_lookup.catalog_3'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_18',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_18',
+      'GRANT SELECT ON analytics_mart.sco_fact_18 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-169',
+    modelName: 'SupplyChainOptimizationTransformations Model v169',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_19',
+      'dim_lookup.catalog_4'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_19',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_19',
+      'GRANT SELECT ON analytics_mart.sco_fact_19 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-170',
+    modelName: 'SupplyChainOptimizationTransformations Model v170',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_20',
+      'dim_lookup.catalog_5'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_20',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_20',
+      'GRANT SELECT ON analytics_mart.sco_fact_20 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-171',
+    modelName: 'SupplyChainOptimizationTransformations Model v171',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_21',
+      'dim_lookup.catalog_6'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_21',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_21',
+      'GRANT SELECT ON analytics_mart.sco_fact_21 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-172',
+    modelName: 'SupplyChainOptimizationTransformations Model v172',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_22',
+      'dim_lookup.catalog_7'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_22',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_22',
+      'GRANT SELECT ON analytics_mart.sco_fact_22 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-173',
+    modelName: 'SupplyChainOptimizationTransformations Model v173',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_23',
+      'dim_lookup.catalog_8'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_23',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_23',
+      'GRANT SELECT ON analytics_mart.sco_fact_23 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-174',
+    modelName: 'SupplyChainOptimizationTransformations Model v174',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_24',
+      'dim_lookup.catalog_9'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_24',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_24',
+      'GRANT SELECT ON analytics_mart.sco_fact_24 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-175',
+    modelName: 'SupplyChainOptimizationTransformations Model v175',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_0',
+      'dim_lookup.catalog_10'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_25',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_25',
+      'GRANT SELECT ON analytics_mart.sco_fact_25 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-176',
+    modelName: 'SupplyChainOptimizationTransformations Model v176',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_1',
+      'dim_lookup.catalog_11'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_26',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_26',
+      'GRANT SELECT ON analytics_mart.sco_fact_26 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-177',
+    modelName: 'SupplyChainOptimizationTransformations Model v177',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_2',
+      'dim_lookup.catalog_12'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_27',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_27',
+      'GRANT SELECT ON analytics_mart.sco_fact_27 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-178',
+    modelName: 'SupplyChainOptimizationTransformations Model v178',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_3',
+      'dim_lookup.catalog_13'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_28',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_28',
+      'GRANT SELECT ON analytics_mart.sco_fact_28 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-179',
+    modelName: 'SupplyChainOptimizationTransformations Model v179',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_4',
+      'dim_lookup.catalog_14'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_29',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_29',
+      'GRANT SELECT ON analytics_mart.sco_fact_29 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-180',
+    modelName: 'SupplyChainOptimizationTransformations Model v180',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_5',
+      'dim_lookup.catalog_0'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_0',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_0',
+      'GRANT SELECT ON analytics_mart.sco_fact_0 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-181',
+    modelName: 'SupplyChainOptimizationTransformations Model v181',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_6',
+      'dim_lookup.catalog_1'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_1',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_1',
+      'GRANT SELECT ON analytics_mart.sco_fact_1 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-182',
+    modelName: 'SupplyChainOptimizationTransformations Model v182',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_7',
+      'dim_lookup.catalog_2'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_2',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_2',
+      'GRANT SELECT ON analytics_mart.sco_fact_2 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-183',
+    modelName: 'SupplyChainOptimizationTransformations Model v183',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_8',
+      'dim_lookup.catalog_3'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_3',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_3',
+      'GRANT SELECT ON analytics_mart.sco_fact_3 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-184',
+    modelName: 'SupplyChainOptimizationTransformations Model v184',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_9',
+      'dim_lookup.catalog_4'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_4',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_4',
+      'GRANT SELECT ON analytics_mart.sco_fact_4 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-185',
+    modelName: 'SupplyChainOptimizationTransformations Model v185',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_10',
+      'dim_lookup.catalog_5'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_5',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_5',
+      'GRANT SELECT ON analytics_mart.sco_fact_5 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-186',
+    modelName: 'SupplyChainOptimizationTransformations Model v186',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_11',
+      'dim_lookup.catalog_6'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_6',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_6',
+      'GRANT SELECT ON analytics_mart.sco_fact_6 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-187',
+    modelName: 'SupplyChainOptimizationTransformations Model v187',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_12',
+      'dim_lookup.catalog_7'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_7',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_7',
+      'GRANT SELECT ON analytics_mart.sco_fact_7 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-188',
+    modelName: 'SupplyChainOptimizationTransformations Model v188',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_13',
+      'dim_lookup.catalog_8'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_8',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_8',
+      'GRANT SELECT ON analytics_mart.sco_fact_8 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-189',
+    modelName: 'SupplyChainOptimizationTransformations Model v189',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_14',
+      'dim_lookup.catalog_9'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_9',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_9',
+      'GRANT SELECT ON analytics_mart.sco_fact_9 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-190',
+    modelName: 'SupplyChainOptimizationTransformations Model v190',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_15',
+      'dim_lookup.catalog_10'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_10',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_10',
+      'GRANT SELECT ON analytics_mart.sco_fact_10 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-191',
+    modelName: 'SupplyChainOptimizationTransformations Model v191',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_16',
+      'dim_lookup.catalog_11'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_11',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_11',
+      'GRANT SELECT ON analytics_mart.sco_fact_11 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-192',
+    modelName: 'SupplyChainOptimizationTransformations Model v192',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_17',
+      'dim_lookup.catalog_12'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_12',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_12',
+      'GRANT SELECT ON analytics_mart.sco_fact_12 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-193',
+    modelName: 'SupplyChainOptimizationTransformations Model v193',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_18',
+      'dim_lookup.catalog_13'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_13',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_13',
+      'GRANT SELECT ON analytics_mart.sco_fact_13 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-194',
+    modelName: 'SupplyChainOptimizationTransformations Model v194',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_19',
+      'dim_lookup.catalog_14'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_14',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_14',
+      'GRANT SELECT ON analytics_mart.sco_fact_14 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-195',
+    modelName: 'SupplyChainOptimizationTransformations Model v195',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_20',
+      'dim_lookup.catalog_0'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_15',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_15',
+      'GRANT SELECT ON analytics_mart.sco_fact_15 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-196',
+    modelName: 'SupplyChainOptimizationTransformations Model v196',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_21',
+      'dim_lookup.catalog_1'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_16',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_16',
+      'GRANT SELECT ON analytics_mart.sco_fact_16 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-197',
+    modelName: 'SupplyChainOptimizationTransformations Model v197',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_22',
+      'dim_lookup.catalog_2'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_17',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_17',
+      'GRANT SELECT ON analytics_mart.sco_fact_17 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-198',
+    modelName: 'SupplyChainOptimizationTransformations Model v198',
+    category: 'Inventory safety stock calculation',
+    sourceTables: [
+      'raw_staging.table_23',
+      'dim_lookup.catalog_3'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_18',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_18',
+      'GRANT SELECT ON analytics_mart.sco_fact_18 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-199',
+    modelName: 'SupplyChainOptimizationTransformations Model v199',
+    category: 'EOQ economic order quantity reorders',
+    sourceTables: [
+      'raw_staging.table_24',
+      'dim_lookup.catalog_4'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_19',
+    materializationType: 'TABLE',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_19',
+      'GRANT SELECT ON analytics_mart.sco_fact_19 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  },
+  {
+    transformId: 'TRSF-SCO-200',
+    modelName: 'SupplyChainOptimizationTransformations Model v200',
+    category: 'and supplier fulfillment lead time aggregation',
+    sourceTables: [
+      'raw_staging.table_0',
+      'dim_lookup.catalog_5'
+    ],
+    targetMartTable: 'analytics_mart.sco_fact_20',
+    materializationType: 'INCREMENTAL',
+    partitionColumn: 'event_date',
+    clusterKeys: [
+      'tenant_id',
+      'entity_id'
+    ],
+    preHookQueries: [
+      'SET timezone = "UTC"',
+      'CREATE TEMPORARY TABLE IF NOT EXISTS _tmp_batch'
+    ],
+    postHookQueries: [
+      'ANALYZE analytics_mart.sco_fact_20',
+      'GRANT SELECT ON analytics_mart.sco_fact_20 TO ROLE bi_reporting'
+    ],
+    sqlExpression: 'SELECT record_id, entity_id, SUM(metric_value) OVER(PARTITION BY entity_id ORDER BY event_timestamp ROWS BETWEEN 30 PRECEDING AND CURRENT ROW) AS rolling_30d_metric FROM source_dataset WHERE is_valid = TRUE',
+    isOptimizedForSparkVectorization: true
+  }
+];
