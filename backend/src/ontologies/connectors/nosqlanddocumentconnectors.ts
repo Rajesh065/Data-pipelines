@@ -1,0 +1,2060 @@
+/**
+ * Connector Schema & Protocol Directory: NoSQLAndDocumentConnectors
+ */
+
+export interface ConnectorSpec {
+  connectorId: string;
+  name: string;
+  category: string;
+  protocolType: string;
+  supportedCompression: string[];
+  maxThroughputMbPerSec: number;
+  connectionPoolSize: number;
+  supportsSchemaEvolution: boolean;
+  supportsTransactions: boolean;
+  keepAliveTimeoutSeconds: number;
+  metricsCollectionIntervalSec: number;
+}
+
+export const CONNECTORS_NOSQL_DATASET: ConnectorSpec[] = [
+  {
+    connectorId: 'CONN-NOSQL-001',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #1)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 125,
+    connectionPoolSize: 17,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-002',
+    name: 'Cassandra CQL CDC Engine (Cluster #2)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 150,
+    connectionPoolSize: 18,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-003',
+    name: 'Redis PubSub Streamer (Cluster #3)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 175,
+    connectionPoolSize: 19,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-004',
+    name: 'MongoDB Change Streams (Cluster #4)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 200,
+    connectionPoolSize: 20,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-005',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #5)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 225,
+    connectionPoolSize: 21,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-006',
+    name: 'Cassandra CQL CDC Engine (Cluster #6)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 250,
+    connectionPoolSize: 22,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-007',
+    name: 'Redis PubSub Streamer (Cluster #7)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 275,
+    connectionPoolSize: 23,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-008',
+    name: 'MongoDB Change Streams (Cluster #8)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 300,
+    connectionPoolSize: 24,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-009',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #9)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 325,
+    connectionPoolSize: 25,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-010',
+    name: 'Cassandra CQL CDC Engine (Cluster #10)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 350,
+    connectionPoolSize: 26,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-011',
+    name: 'Redis PubSub Streamer (Cluster #11)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 375,
+    connectionPoolSize: 27,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-012',
+    name: 'MongoDB Change Streams (Cluster #12)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 400,
+    connectionPoolSize: 28,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-013',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #13)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 425,
+    connectionPoolSize: 29,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-014',
+    name: 'Cassandra CQL CDC Engine (Cluster #14)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 450,
+    connectionPoolSize: 30,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-015',
+    name: 'Redis PubSub Streamer (Cluster #15)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 475,
+    connectionPoolSize: 31,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-016',
+    name: 'MongoDB Change Streams (Cluster #16)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 500,
+    connectionPoolSize: 32,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-017',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #17)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 525,
+    connectionPoolSize: 33,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-018',
+    name: 'Cassandra CQL CDC Engine (Cluster #18)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 550,
+    connectionPoolSize: 34,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-019',
+    name: 'Redis PubSub Streamer (Cluster #19)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 575,
+    connectionPoolSize: 35,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-020',
+    name: 'MongoDB Change Streams (Cluster #20)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 600,
+    connectionPoolSize: 36,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-021',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #21)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 625,
+    connectionPoolSize: 37,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-022',
+    name: 'Cassandra CQL CDC Engine (Cluster #22)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 650,
+    connectionPoolSize: 38,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-023',
+    name: 'Redis PubSub Streamer (Cluster #23)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 675,
+    connectionPoolSize: 39,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-024',
+    name: 'MongoDB Change Streams (Cluster #24)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 700,
+    connectionPoolSize: 40,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-025',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #25)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 725,
+    connectionPoolSize: 41,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-026',
+    name: 'Cassandra CQL CDC Engine (Cluster #26)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 750,
+    connectionPoolSize: 42,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-027',
+    name: 'Redis PubSub Streamer (Cluster #27)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 775,
+    connectionPoolSize: 43,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-028',
+    name: 'MongoDB Change Streams (Cluster #28)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 800,
+    connectionPoolSize: 44,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-029',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #29)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 825,
+    connectionPoolSize: 45,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-030',
+    name: 'Cassandra CQL CDC Engine (Cluster #30)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 850,
+    connectionPoolSize: 46,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-031',
+    name: 'Redis PubSub Streamer (Cluster #31)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 875,
+    connectionPoolSize: 47,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-032',
+    name: 'MongoDB Change Streams (Cluster #32)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 900,
+    connectionPoolSize: 16,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-033',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #33)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 925,
+    connectionPoolSize: 17,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-034',
+    name: 'Cassandra CQL CDC Engine (Cluster #34)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 950,
+    connectionPoolSize: 18,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-035',
+    name: 'Redis PubSub Streamer (Cluster #35)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 975,
+    connectionPoolSize: 19,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-036',
+    name: 'MongoDB Change Streams (Cluster #36)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1000,
+    connectionPoolSize: 20,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-037',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #37)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1025,
+    connectionPoolSize: 21,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-038',
+    name: 'Cassandra CQL CDC Engine (Cluster #38)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1050,
+    connectionPoolSize: 22,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-039',
+    name: 'Redis PubSub Streamer (Cluster #39)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1075,
+    connectionPoolSize: 23,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-040',
+    name: 'MongoDB Change Streams (Cluster #40)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 100,
+    connectionPoolSize: 24,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-041',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #41)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 125,
+    connectionPoolSize: 25,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-042',
+    name: 'Cassandra CQL CDC Engine (Cluster #42)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 150,
+    connectionPoolSize: 26,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-043',
+    name: 'Redis PubSub Streamer (Cluster #43)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 175,
+    connectionPoolSize: 27,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-044',
+    name: 'MongoDB Change Streams (Cluster #44)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 200,
+    connectionPoolSize: 28,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-045',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #45)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 225,
+    connectionPoolSize: 29,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-046',
+    name: 'Cassandra CQL CDC Engine (Cluster #46)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 250,
+    connectionPoolSize: 30,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-047',
+    name: 'Redis PubSub Streamer (Cluster #47)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 275,
+    connectionPoolSize: 31,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-048',
+    name: 'MongoDB Change Streams (Cluster #48)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 300,
+    connectionPoolSize: 32,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-049',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #49)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 325,
+    connectionPoolSize: 33,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-050',
+    name: 'Cassandra CQL CDC Engine (Cluster #50)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 350,
+    connectionPoolSize: 34,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-051',
+    name: 'Redis PubSub Streamer (Cluster #51)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 375,
+    connectionPoolSize: 35,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-052',
+    name: 'MongoDB Change Streams (Cluster #52)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 400,
+    connectionPoolSize: 36,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-053',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #53)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 425,
+    connectionPoolSize: 37,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-054',
+    name: 'Cassandra CQL CDC Engine (Cluster #54)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 450,
+    connectionPoolSize: 38,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-055',
+    name: 'Redis PubSub Streamer (Cluster #55)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 475,
+    connectionPoolSize: 39,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-056',
+    name: 'MongoDB Change Streams (Cluster #56)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 500,
+    connectionPoolSize: 40,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-057',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #57)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 525,
+    connectionPoolSize: 41,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-058',
+    name: 'Cassandra CQL CDC Engine (Cluster #58)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 550,
+    connectionPoolSize: 42,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-059',
+    name: 'Redis PubSub Streamer (Cluster #59)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 575,
+    connectionPoolSize: 43,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-060',
+    name: 'MongoDB Change Streams (Cluster #60)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 600,
+    connectionPoolSize: 44,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-061',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #61)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 625,
+    connectionPoolSize: 45,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-062',
+    name: 'Cassandra CQL CDC Engine (Cluster #62)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 650,
+    connectionPoolSize: 46,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-063',
+    name: 'Redis PubSub Streamer (Cluster #63)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 675,
+    connectionPoolSize: 47,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-064',
+    name: 'MongoDB Change Streams (Cluster #64)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 700,
+    connectionPoolSize: 16,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-065',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #65)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 725,
+    connectionPoolSize: 17,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-066',
+    name: 'Cassandra CQL CDC Engine (Cluster #66)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 750,
+    connectionPoolSize: 18,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-067',
+    name: 'Redis PubSub Streamer (Cluster #67)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 775,
+    connectionPoolSize: 19,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-068',
+    name: 'MongoDB Change Streams (Cluster #68)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 800,
+    connectionPoolSize: 20,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-069',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #69)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 825,
+    connectionPoolSize: 21,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-070',
+    name: 'Cassandra CQL CDC Engine (Cluster #70)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 850,
+    connectionPoolSize: 22,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-071',
+    name: 'Redis PubSub Streamer (Cluster #71)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 875,
+    connectionPoolSize: 23,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-072',
+    name: 'MongoDB Change Streams (Cluster #72)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 900,
+    connectionPoolSize: 24,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-073',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #73)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 925,
+    connectionPoolSize: 25,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-074',
+    name: 'Cassandra CQL CDC Engine (Cluster #74)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 950,
+    connectionPoolSize: 26,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-075',
+    name: 'Redis PubSub Streamer (Cluster #75)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 975,
+    connectionPoolSize: 27,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-076',
+    name: 'MongoDB Change Streams (Cluster #76)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1000,
+    connectionPoolSize: 28,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-077',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #77)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1025,
+    connectionPoolSize: 29,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-078',
+    name: 'Cassandra CQL CDC Engine (Cluster #78)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1050,
+    connectionPoolSize: 30,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-079',
+    name: 'Redis PubSub Streamer (Cluster #79)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1075,
+    connectionPoolSize: 31,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-080',
+    name: 'MongoDB Change Streams (Cluster #80)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 100,
+    connectionPoolSize: 32,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-081',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #81)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 125,
+    connectionPoolSize: 33,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-082',
+    name: 'Cassandra CQL CDC Engine (Cluster #82)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 150,
+    connectionPoolSize: 34,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-083',
+    name: 'Redis PubSub Streamer (Cluster #83)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 175,
+    connectionPoolSize: 35,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-084',
+    name: 'MongoDB Change Streams (Cluster #84)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 200,
+    connectionPoolSize: 36,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-085',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #85)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 225,
+    connectionPoolSize: 37,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-086',
+    name: 'Cassandra CQL CDC Engine (Cluster #86)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 250,
+    connectionPoolSize: 38,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-087',
+    name: 'Redis PubSub Streamer (Cluster #87)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 275,
+    connectionPoolSize: 39,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-088',
+    name: 'MongoDB Change Streams (Cluster #88)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 300,
+    connectionPoolSize: 40,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-089',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #89)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 325,
+    connectionPoolSize: 41,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-090',
+    name: 'Cassandra CQL CDC Engine (Cluster #90)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 350,
+    connectionPoolSize: 42,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-091',
+    name: 'Redis PubSub Streamer (Cluster #91)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 375,
+    connectionPoolSize: 43,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-092',
+    name: 'MongoDB Change Streams (Cluster #92)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 400,
+    connectionPoolSize: 44,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-093',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #93)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 425,
+    connectionPoolSize: 45,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-094',
+    name: 'Cassandra CQL CDC Engine (Cluster #94)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 450,
+    connectionPoolSize: 46,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-095',
+    name: 'Redis PubSub Streamer (Cluster #95)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 475,
+    connectionPoolSize: 47,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-096',
+    name: 'MongoDB Change Streams (Cluster #96)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 500,
+    connectionPoolSize: 16,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-097',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #97)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 525,
+    connectionPoolSize: 17,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-098',
+    name: 'Cassandra CQL CDC Engine (Cluster #98)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 550,
+    connectionPoolSize: 18,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-099',
+    name: 'Redis PubSub Streamer (Cluster #99)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 575,
+    connectionPoolSize: 19,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-100',
+    name: 'MongoDB Change Streams (Cluster #100)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 600,
+    connectionPoolSize: 20,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-101',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #101)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 625,
+    connectionPoolSize: 21,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-102',
+    name: 'Cassandra CQL CDC Engine (Cluster #102)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 650,
+    connectionPoolSize: 22,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-103',
+    name: 'Redis PubSub Streamer (Cluster #103)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 675,
+    connectionPoolSize: 23,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-104',
+    name: 'MongoDB Change Streams (Cluster #104)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 700,
+    connectionPoolSize: 24,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-105',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #105)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 725,
+    connectionPoolSize: 25,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-106',
+    name: 'Cassandra CQL CDC Engine (Cluster #106)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 750,
+    connectionPoolSize: 26,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-107',
+    name: 'Redis PubSub Streamer (Cluster #107)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 775,
+    connectionPoolSize: 27,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-108',
+    name: 'MongoDB Change Streams (Cluster #108)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 800,
+    connectionPoolSize: 28,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-109',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #109)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 825,
+    connectionPoolSize: 29,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-110',
+    name: 'Cassandra CQL CDC Engine (Cluster #110)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 850,
+    connectionPoolSize: 30,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-111',
+    name: 'Redis PubSub Streamer (Cluster #111)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 875,
+    connectionPoolSize: 31,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-112',
+    name: 'MongoDB Change Streams (Cluster #112)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 900,
+    connectionPoolSize: 32,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-113',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #113)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 925,
+    connectionPoolSize: 33,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-114',
+    name: 'Cassandra CQL CDC Engine (Cluster #114)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 950,
+    connectionPoolSize: 34,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-115',
+    name: 'Redis PubSub Streamer (Cluster #115)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 975,
+    connectionPoolSize: 35,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-116',
+    name: 'MongoDB Change Streams (Cluster #116)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1000,
+    connectionPoolSize: 36,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-117',
+    name: 'AWS DynamoDB Streams Adapter (Cluster #117)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1025,
+    connectionPoolSize: 37,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-118',
+    name: 'Cassandra CQL CDC Engine (Cluster #118)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1050,
+    connectionPoolSize: 38,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-119',
+    name: 'Redis PubSub Streamer (Cluster #119)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1075,
+    connectionPoolSize: 39,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-NOSQL-120',
+    name: 'MongoDB Change Streams (Cluster #120)',
+    category: 'NoSQLAndDocumentConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 100,
+    connectionPoolSize: 40,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  }
+];

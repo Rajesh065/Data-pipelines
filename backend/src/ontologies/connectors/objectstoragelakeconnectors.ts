@@ -1,0 +1,2060 @@
+/**
+ * Connector Schema & Protocol Directory: ObjectStorageLakeConnectors
+ */
+
+export interface ConnectorSpec {
+  connectorId: string;
+  name: string;
+  category: string;
+  protocolType: string;
+  supportedCompression: string[];
+  maxThroughputMbPerSec: number;
+  connectionPoolSize: number;
+  supportsSchemaEvolution: boolean;
+  supportsTransactions: boolean;
+  keepAliveTimeoutSeconds: number;
+  metricsCollectionIntervalSec: number;
+}
+
+export const CONNECTORS_LAK_DATASET: ConnectorSpec[] = [
+  {
+    connectorId: 'CONN-LAK-001',
+    name: 'AWS S3 Parquet Compactor (Cluster #1)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 125,
+    connectionPoolSize: 17,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-002',
+    name: 'Google Cloud Storage Writer (Cluster #2)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 150,
+    connectionPoolSize: 18,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-003',
+    name: 'Azure ADLS Gen2 Client (Cluster #3)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 175,
+    connectionPoolSize: 19,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-004',
+    name: 'Apache Iceberg REST Catalog (Cluster #4)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 200,
+    connectionPoolSize: 20,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-005',
+    name: 'AWS S3 Parquet Compactor (Cluster #5)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 225,
+    connectionPoolSize: 21,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-006',
+    name: 'Google Cloud Storage Writer (Cluster #6)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 250,
+    connectionPoolSize: 22,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-007',
+    name: 'Azure ADLS Gen2 Client (Cluster #7)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 275,
+    connectionPoolSize: 23,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-008',
+    name: 'Apache Iceberg REST Catalog (Cluster #8)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 300,
+    connectionPoolSize: 24,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-009',
+    name: 'AWS S3 Parquet Compactor (Cluster #9)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 325,
+    connectionPoolSize: 25,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-010',
+    name: 'Google Cloud Storage Writer (Cluster #10)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 350,
+    connectionPoolSize: 26,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-011',
+    name: 'Azure ADLS Gen2 Client (Cluster #11)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 375,
+    connectionPoolSize: 27,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-012',
+    name: 'Apache Iceberg REST Catalog (Cluster #12)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 400,
+    connectionPoolSize: 28,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-013',
+    name: 'AWS S3 Parquet Compactor (Cluster #13)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 425,
+    connectionPoolSize: 29,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-014',
+    name: 'Google Cloud Storage Writer (Cluster #14)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 450,
+    connectionPoolSize: 30,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-015',
+    name: 'Azure ADLS Gen2 Client (Cluster #15)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 475,
+    connectionPoolSize: 31,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-016',
+    name: 'Apache Iceberg REST Catalog (Cluster #16)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 500,
+    connectionPoolSize: 32,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-017',
+    name: 'AWS S3 Parquet Compactor (Cluster #17)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 525,
+    connectionPoolSize: 33,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-018',
+    name: 'Google Cloud Storage Writer (Cluster #18)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 550,
+    connectionPoolSize: 34,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-019',
+    name: 'Azure ADLS Gen2 Client (Cluster #19)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 575,
+    connectionPoolSize: 35,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-020',
+    name: 'Apache Iceberg REST Catalog (Cluster #20)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 600,
+    connectionPoolSize: 36,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-021',
+    name: 'AWS S3 Parquet Compactor (Cluster #21)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 625,
+    connectionPoolSize: 37,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-022',
+    name: 'Google Cloud Storage Writer (Cluster #22)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 650,
+    connectionPoolSize: 38,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-023',
+    name: 'Azure ADLS Gen2 Client (Cluster #23)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 675,
+    connectionPoolSize: 39,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-024',
+    name: 'Apache Iceberg REST Catalog (Cluster #24)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 700,
+    connectionPoolSize: 40,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-025',
+    name: 'AWS S3 Parquet Compactor (Cluster #25)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 725,
+    connectionPoolSize: 41,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-026',
+    name: 'Google Cloud Storage Writer (Cluster #26)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 750,
+    connectionPoolSize: 42,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-027',
+    name: 'Azure ADLS Gen2 Client (Cluster #27)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 775,
+    connectionPoolSize: 43,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-028',
+    name: 'Apache Iceberg REST Catalog (Cluster #28)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 800,
+    connectionPoolSize: 44,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-029',
+    name: 'AWS S3 Parquet Compactor (Cluster #29)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 825,
+    connectionPoolSize: 45,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-030',
+    name: 'Google Cloud Storage Writer (Cluster #30)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 850,
+    connectionPoolSize: 46,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-031',
+    name: 'Azure ADLS Gen2 Client (Cluster #31)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 875,
+    connectionPoolSize: 47,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-032',
+    name: 'Apache Iceberg REST Catalog (Cluster #32)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 900,
+    connectionPoolSize: 16,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-033',
+    name: 'AWS S3 Parquet Compactor (Cluster #33)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 925,
+    connectionPoolSize: 17,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-034',
+    name: 'Google Cloud Storage Writer (Cluster #34)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 950,
+    connectionPoolSize: 18,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-035',
+    name: 'Azure ADLS Gen2 Client (Cluster #35)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 975,
+    connectionPoolSize: 19,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-036',
+    name: 'Apache Iceberg REST Catalog (Cluster #36)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1000,
+    connectionPoolSize: 20,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-037',
+    name: 'AWS S3 Parquet Compactor (Cluster #37)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1025,
+    connectionPoolSize: 21,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-038',
+    name: 'Google Cloud Storage Writer (Cluster #38)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1050,
+    connectionPoolSize: 22,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-039',
+    name: 'Azure ADLS Gen2 Client (Cluster #39)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1075,
+    connectionPoolSize: 23,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-040',
+    name: 'Apache Iceberg REST Catalog (Cluster #40)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 100,
+    connectionPoolSize: 24,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-041',
+    name: 'AWS S3 Parquet Compactor (Cluster #41)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 125,
+    connectionPoolSize: 25,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-042',
+    name: 'Google Cloud Storage Writer (Cluster #42)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 150,
+    connectionPoolSize: 26,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-043',
+    name: 'Azure ADLS Gen2 Client (Cluster #43)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 175,
+    connectionPoolSize: 27,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-044',
+    name: 'Apache Iceberg REST Catalog (Cluster #44)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 200,
+    connectionPoolSize: 28,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-045',
+    name: 'AWS S3 Parquet Compactor (Cluster #45)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 225,
+    connectionPoolSize: 29,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-046',
+    name: 'Google Cloud Storage Writer (Cluster #46)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 250,
+    connectionPoolSize: 30,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-047',
+    name: 'Azure ADLS Gen2 Client (Cluster #47)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 275,
+    connectionPoolSize: 31,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-048',
+    name: 'Apache Iceberg REST Catalog (Cluster #48)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 300,
+    connectionPoolSize: 32,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-049',
+    name: 'AWS S3 Parquet Compactor (Cluster #49)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 325,
+    connectionPoolSize: 33,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-050',
+    name: 'Google Cloud Storage Writer (Cluster #50)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 350,
+    connectionPoolSize: 34,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-051',
+    name: 'Azure ADLS Gen2 Client (Cluster #51)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 375,
+    connectionPoolSize: 35,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-052',
+    name: 'Apache Iceberg REST Catalog (Cluster #52)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 400,
+    connectionPoolSize: 36,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-053',
+    name: 'AWS S3 Parquet Compactor (Cluster #53)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 425,
+    connectionPoolSize: 37,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-054',
+    name: 'Google Cloud Storage Writer (Cluster #54)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 450,
+    connectionPoolSize: 38,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-055',
+    name: 'Azure ADLS Gen2 Client (Cluster #55)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 475,
+    connectionPoolSize: 39,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-056',
+    name: 'Apache Iceberg REST Catalog (Cluster #56)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 500,
+    connectionPoolSize: 40,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-057',
+    name: 'AWS S3 Parquet Compactor (Cluster #57)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 525,
+    connectionPoolSize: 41,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-058',
+    name: 'Google Cloud Storage Writer (Cluster #58)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 550,
+    connectionPoolSize: 42,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-059',
+    name: 'Azure ADLS Gen2 Client (Cluster #59)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 575,
+    connectionPoolSize: 43,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-060',
+    name: 'Apache Iceberg REST Catalog (Cluster #60)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 600,
+    connectionPoolSize: 44,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-061',
+    name: 'AWS S3 Parquet Compactor (Cluster #61)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 625,
+    connectionPoolSize: 45,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-062',
+    name: 'Google Cloud Storage Writer (Cluster #62)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 650,
+    connectionPoolSize: 46,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-063',
+    name: 'Azure ADLS Gen2 Client (Cluster #63)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 675,
+    connectionPoolSize: 47,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-064',
+    name: 'Apache Iceberg REST Catalog (Cluster #64)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 700,
+    connectionPoolSize: 16,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-065',
+    name: 'AWS S3 Parquet Compactor (Cluster #65)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 725,
+    connectionPoolSize: 17,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-066',
+    name: 'Google Cloud Storage Writer (Cluster #66)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 750,
+    connectionPoolSize: 18,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-067',
+    name: 'Azure ADLS Gen2 Client (Cluster #67)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 775,
+    connectionPoolSize: 19,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-068',
+    name: 'Apache Iceberg REST Catalog (Cluster #68)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 800,
+    connectionPoolSize: 20,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-069',
+    name: 'AWS S3 Parquet Compactor (Cluster #69)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 825,
+    connectionPoolSize: 21,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-070',
+    name: 'Google Cloud Storage Writer (Cluster #70)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 850,
+    connectionPoolSize: 22,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-071',
+    name: 'Azure ADLS Gen2 Client (Cluster #71)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 875,
+    connectionPoolSize: 23,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-072',
+    name: 'Apache Iceberg REST Catalog (Cluster #72)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 900,
+    connectionPoolSize: 24,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-073',
+    name: 'AWS S3 Parquet Compactor (Cluster #73)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 925,
+    connectionPoolSize: 25,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-074',
+    name: 'Google Cloud Storage Writer (Cluster #74)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 950,
+    connectionPoolSize: 26,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-075',
+    name: 'Azure ADLS Gen2 Client (Cluster #75)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 975,
+    connectionPoolSize: 27,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-076',
+    name: 'Apache Iceberg REST Catalog (Cluster #76)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1000,
+    connectionPoolSize: 28,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-077',
+    name: 'AWS S3 Parquet Compactor (Cluster #77)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1025,
+    connectionPoolSize: 29,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-078',
+    name: 'Google Cloud Storage Writer (Cluster #78)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1050,
+    connectionPoolSize: 30,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-079',
+    name: 'Azure ADLS Gen2 Client (Cluster #79)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1075,
+    connectionPoolSize: 31,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-080',
+    name: 'Apache Iceberg REST Catalog (Cluster #80)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 100,
+    connectionPoolSize: 32,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-081',
+    name: 'AWS S3 Parquet Compactor (Cluster #81)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 125,
+    connectionPoolSize: 33,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-082',
+    name: 'Google Cloud Storage Writer (Cluster #82)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 150,
+    connectionPoolSize: 34,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-083',
+    name: 'Azure ADLS Gen2 Client (Cluster #83)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 175,
+    connectionPoolSize: 35,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-084',
+    name: 'Apache Iceberg REST Catalog (Cluster #84)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 200,
+    connectionPoolSize: 36,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-085',
+    name: 'AWS S3 Parquet Compactor (Cluster #85)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 225,
+    connectionPoolSize: 37,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-086',
+    name: 'Google Cloud Storage Writer (Cluster #86)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 250,
+    connectionPoolSize: 38,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-087',
+    name: 'Azure ADLS Gen2 Client (Cluster #87)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 275,
+    connectionPoolSize: 39,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-088',
+    name: 'Apache Iceberg REST Catalog (Cluster #88)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 300,
+    connectionPoolSize: 40,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-089',
+    name: 'AWS S3 Parquet Compactor (Cluster #89)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 325,
+    connectionPoolSize: 41,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-090',
+    name: 'Google Cloud Storage Writer (Cluster #90)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 350,
+    connectionPoolSize: 42,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-091',
+    name: 'Azure ADLS Gen2 Client (Cluster #91)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 375,
+    connectionPoolSize: 43,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-092',
+    name: 'Apache Iceberg REST Catalog (Cluster #92)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 400,
+    connectionPoolSize: 44,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-093',
+    name: 'AWS S3 Parquet Compactor (Cluster #93)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 425,
+    connectionPoolSize: 45,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-094',
+    name: 'Google Cloud Storage Writer (Cluster #94)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 450,
+    connectionPoolSize: 46,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-095',
+    name: 'Azure ADLS Gen2 Client (Cluster #95)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 475,
+    connectionPoolSize: 47,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-096',
+    name: 'Apache Iceberg REST Catalog (Cluster #96)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 500,
+    connectionPoolSize: 16,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-097',
+    name: 'AWS S3 Parquet Compactor (Cluster #97)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 525,
+    connectionPoolSize: 17,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-098',
+    name: 'Google Cloud Storage Writer (Cluster #98)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 550,
+    connectionPoolSize: 18,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-099',
+    name: 'Azure ADLS Gen2 Client (Cluster #99)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 575,
+    connectionPoolSize: 19,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-100',
+    name: 'Apache Iceberg REST Catalog (Cluster #100)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 600,
+    connectionPoolSize: 20,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-101',
+    name: 'AWS S3 Parquet Compactor (Cluster #101)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 625,
+    connectionPoolSize: 21,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-102',
+    name: 'Google Cloud Storage Writer (Cluster #102)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 650,
+    connectionPoolSize: 22,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-103',
+    name: 'Azure ADLS Gen2 Client (Cluster #103)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 675,
+    connectionPoolSize: 23,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-104',
+    name: 'Apache Iceberg REST Catalog (Cluster #104)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 700,
+    connectionPoolSize: 24,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-105',
+    name: 'AWS S3 Parquet Compactor (Cluster #105)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 725,
+    connectionPoolSize: 25,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-106',
+    name: 'Google Cloud Storage Writer (Cluster #106)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 750,
+    connectionPoolSize: 26,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-107',
+    name: 'Azure ADLS Gen2 Client (Cluster #107)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 775,
+    connectionPoolSize: 27,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-108',
+    name: 'Apache Iceberg REST Catalog (Cluster #108)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 800,
+    connectionPoolSize: 28,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-109',
+    name: 'AWS S3 Parquet Compactor (Cluster #109)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 825,
+    connectionPoolSize: 29,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-110',
+    name: 'Google Cloud Storage Writer (Cluster #110)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 850,
+    connectionPoolSize: 30,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-111',
+    name: 'Azure ADLS Gen2 Client (Cluster #111)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 875,
+    connectionPoolSize: 31,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-112',
+    name: 'Apache Iceberg REST Catalog (Cluster #112)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 900,
+    connectionPoolSize: 32,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-113',
+    name: 'AWS S3 Parquet Compactor (Cluster #113)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 925,
+    connectionPoolSize: 33,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-114',
+    name: 'Google Cloud Storage Writer (Cluster #114)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 950,
+    connectionPoolSize: 34,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-115',
+    name: 'Azure ADLS Gen2 Client (Cluster #115)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 975,
+    connectionPoolSize: 35,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-116',
+    name: 'Apache Iceberg REST Catalog (Cluster #116)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1000,
+    connectionPoolSize: 36,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-117',
+    name: 'AWS S3 Parquet Compactor (Cluster #117)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1025,
+    connectionPoolSize: 37,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-118',
+    name: 'Google Cloud Storage Writer (Cluster #118)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1050,
+    connectionPoolSize: 38,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-119',
+    name: 'Azure ADLS Gen2 Client (Cluster #119)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1075,
+    connectionPoolSize: 39,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-LAK-120',
+    name: 'Apache Iceberg REST Catalog (Cluster #120)',
+    category: 'ObjectStorageLakeConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 100,
+    connectionPoolSize: 40,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  }
+];

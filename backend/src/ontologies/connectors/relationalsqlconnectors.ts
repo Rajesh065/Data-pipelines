@@ -1,0 +1,2060 @@
+/**
+ * Connector Schema & Protocol Directory: RelationalSQLConnectors
+ */
+
+export interface ConnectorSpec {
+  connectorId: string;
+  name: string;
+  category: string;
+  protocolType: string;
+  supportedCompression: string[];
+  maxThroughputMbPerSec: number;
+  connectionPoolSize: number;
+  supportsSchemaEvolution: boolean;
+  supportsTransactions: boolean;
+  keepAliveTimeoutSeconds: number;
+  metricsCollectionIntervalSec: number;
+}
+
+export const CONNECTORS_SQL_DATASET: ConnectorSpec[] = [
+  {
+    connectorId: 'CONN-SQL-001',
+    name: 'MySQL Debezium CDC (Cluster #1)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 125,
+    connectionPoolSize: 17,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-002',
+    name: 'Oracle GoldenGate Stream (Cluster #2)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 150,
+    connectionPoolSize: 18,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-003',
+    name: 'SQL Server CDC Engine (Cluster #3)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 175,
+    connectionPoolSize: 19,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-004',
+    name: 'CockroachDB Changefeed (Cluster #4)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 200,
+    connectionPoolSize: 20,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-005',
+    name: 'PostgreSQL CDC Connector (Cluster #5)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 225,
+    connectionPoolSize: 21,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-006',
+    name: 'MySQL Debezium CDC (Cluster #6)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 250,
+    connectionPoolSize: 22,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-007',
+    name: 'Oracle GoldenGate Stream (Cluster #7)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 275,
+    connectionPoolSize: 23,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-008',
+    name: 'SQL Server CDC Engine (Cluster #8)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 300,
+    connectionPoolSize: 24,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-009',
+    name: 'CockroachDB Changefeed (Cluster #9)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 325,
+    connectionPoolSize: 25,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-010',
+    name: 'PostgreSQL CDC Connector (Cluster #10)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 350,
+    connectionPoolSize: 26,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-011',
+    name: 'MySQL Debezium CDC (Cluster #11)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 375,
+    connectionPoolSize: 27,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-012',
+    name: 'Oracle GoldenGate Stream (Cluster #12)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 400,
+    connectionPoolSize: 28,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-013',
+    name: 'SQL Server CDC Engine (Cluster #13)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 425,
+    connectionPoolSize: 29,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-014',
+    name: 'CockroachDB Changefeed (Cluster #14)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 450,
+    connectionPoolSize: 30,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-015',
+    name: 'PostgreSQL CDC Connector (Cluster #15)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 475,
+    connectionPoolSize: 31,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-016',
+    name: 'MySQL Debezium CDC (Cluster #16)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 500,
+    connectionPoolSize: 32,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-017',
+    name: 'Oracle GoldenGate Stream (Cluster #17)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 525,
+    connectionPoolSize: 33,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-018',
+    name: 'SQL Server CDC Engine (Cluster #18)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 550,
+    connectionPoolSize: 34,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-019',
+    name: 'CockroachDB Changefeed (Cluster #19)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 575,
+    connectionPoolSize: 35,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-020',
+    name: 'PostgreSQL CDC Connector (Cluster #20)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 600,
+    connectionPoolSize: 36,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-021',
+    name: 'MySQL Debezium CDC (Cluster #21)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 625,
+    connectionPoolSize: 37,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-022',
+    name: 'Oracle GoldenGate Stream (Cluster #22)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 650,
+    connectionPoolSize: 38,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-023',
+    name: 'SQL Server CDC Engine (Cluster #23)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 675,
+    connectionPoolSize: 39,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-024',
+    name: 'CockroachDB Changefeed (Cluster #24)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 700,
+    connectionPoolSize: 40,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-025',
+    name: 'PostgreSQL CDC Connector (Cluster #25)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 725,
+    connectionPoolSize: 41,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-026',
+    name: 'MySQL Debezium CDC (Cluster #26)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 750,
+    connectionPoolSize: 42,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-027',
+    name: 'Oracle GoldenGate Stream (Cluster #27)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 775,
+    connectionPoolSize: 43,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-028',
+    name: 'SQL Server CDC Engine (Cluster #28)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 800,
+    connectionPoolSize: 44,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-029',
+    name: 'CockroachDB Changefeed (Cluster #29)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 825,
+    connectionPoolSize: 45,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-030',
+    name: 'PostgreSQL CDC Connector (Cluster #30)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 850,
+    connectionPoolSize: 46,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-031',
+    name: 'MySQL Debezium CDC (Cluster #31)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 875,
+    connectionPoolSize: 47,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-032',
+    name: 'Oracle GoldenGate Stream (Cluster #32)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 900,
+    connectionPoolSize: 16,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-033',
+    name: 'SQL Server CDC Engine (Cluster #33)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 925,
+    connectionPoolSize: 17,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-034',
+    name: 'CockroachDB Changefeed (Cluster #34)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 950,
+    connectionPoolSize: 18,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-035',
+    name: 'PostgreSQL CDC Connector (Cluster #35)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 975,
+    connectionPoolSize: 19,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-036',
+    name: 'MySQL Debezium CDC (Cluster #36)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1000,
+    connectionPoolSize: 20,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-037',
+    name: 'Oracle GoldenGate Stream (Cluster #37)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1025,
+    connectionPoolSize: 21,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-038',
+    name: 'SQL Server CDC Engine (Cluster #38)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1050,
+    connectionPoolSize: 22,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-039',
+    name: 'CockroachDB Changefeed (Cluster #39)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1075,
+    connectionPoolSize: 23,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-040',
+    name: 'PostgreSQL CDC Connector (Cluster #40)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 100,
+    connectionPoolSize: 24,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-041',
+    name: 'MySQL Debezium CDC (Cluster #41)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 125,
+    connectionPoolSize: 25,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-042',
+    name: 'Oracle GoldenGate Stream (Cluster #42)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 150,
+    connectionPoolSize: 26,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-043',
+    name: 'SQL Server CDC Engine (Cluster #43)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 175,
+    connectionPoolSize: 27,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-044',
+    name: 'CockroachDB Changefeed (Cluster #44)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 200,
+    connectionPoolSize: 28,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-045',
+    name: 'PostgreSQL CDC Connector (Cluster #45)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 225,
+    connectionPoolSize: 29,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-046',
+    name: 'MySQL Debezium CDC (Cluster #46)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 250,
+    connectionPoolSize: 30,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-047',
+    name: 'Oracle GoldenGate Stream (Cluster #47)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 275,
+    connectionPoolSize: 31,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-048',
+    name: 'SQL Server CDC Engine (Cluster #48)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 300,
+    connectionPoolSize: 32,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-049',
+    name: 'CockroachDB Changefeed (Cluster #49)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 325,
+    connectionPoolSize: 33,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-050',
+    name: 'PostgreSQL CDC Connector (Cluster #50)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 350,
+    connectionPoolSize: 34,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-051',
+    name: 'MySQL Debezium CDC (Cluster #51)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 375,
+    connectionPoolSize: 35,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-052',
+    name: 'Oracle GoldenGate Stream (Cluster #52)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 400,
+    connectionPoolSize: 36,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-053',
+    name: 'SQL Server CDC Engine (Cluster #53)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 425,
+    connectionPoolSize: 37,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-054',
+    name: 'CockroachDB Changefeed (Cluster #54)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 450,
+    connectionPoolSize: 38,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-055',
+    name: 'PostgreSQL CDC Connector (Cluster #55)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 475,
+    connectionPoolSize: 39,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-056',
+    name: 'MySQL Debezium CDC (Cluster #56)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 500,
+    connectionPoolSize: 40,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-057',
+    name: 'Oracle GoldenGate Stream (Cluster #57)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 525,
+    connectionPoolSize: 41,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-058',
+    name: 'SQL Server CDC Engine (Cluster #58)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 550,
+    connectionPoolSize: 42,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-059',
+    name: 'CockroachDB Changefeed (Cluster #59)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 575,
+    connectionPoolSize: 43,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-060',
+    name: 'PostgreSQL CDC Connector (Cluster #60)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 600,
+    connectionPoolSize: 44,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-061',
+    name: 'MySQL Debezium CDC (Cluster #61)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 625,
+    connectionPoolSize: 45,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-062',
+    name: 'Oracle GoldenGate Stream (Cluster #62)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 650,
+    connectionPoolSize: 46,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-063',
+    name: 'SQL Server CDC Engine (Cluster #63)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 675,
+    connectionPoolSize: 47,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-064',
+    name: 'CockroachDB Changefeed (Cluster #64)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 700,
+    connectionPoolSize: 16,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-065',
+    name: 'PostgreSQL CDC Connector (Cluster #65)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 725,
+    connectionPoolSize: 17,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-066',
+    name: 'MySQL Debezium CDC (Cluster #66)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 750,
+    connectionPoolSize: 18,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-067',
+    name: 'Oracle GoldenGate Stream (Cluster #67)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 775,
+    connectionPoolSize: 19,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-068',
+    name: 'SQL Server CDC Engine (Cluster #68)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 800,
+    connectionPoolSize: 20,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-069',
+    name: 'CockroachDB Changefeed (Cluster #69)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 825,
+    connectionPoolSize: 21,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-070',
+    name: 'PostgreSQL CDC Connector (Cluster #70)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 850,
+    connectionPoolSize: 22,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-071',
+    name: 'MySQL Debezium CDC (Cluster #71)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 875,
+    connectionPoolSize: 23,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-072',
+    name: 'Oracle GoldenGate Stream (Cluster #72)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 900,
+    connectionPoolSize: 24,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-073',
+    name: 'SQL Server CDC Engine (Cluster #73)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 925,
+    connectionPoolSize: 25,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-074',
+    name: 'CockroachDB Changefeed (Cluster #74)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 950,
+    connectionPoolSize: 26,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-075',
+    name: 'PostgreSQL CDC Connector (Cluster #75)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 975,
+    connectionPoolSize: 27,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-076',
+    name: 'MySQL Debezium CDC (Cluster #76)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1000,
+    connectionPoolSize: 28,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-077',
+    name: 'Oracle GoldenGate Stream (Cluster #77)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1025,
+    connectionPoolSize: 29,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-078',
+    name: 'SQL Server CDC Engine (Cluster #78)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1050,
+    connectionPoolSize: 30,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-079',
+    name: 'CockroachDB Changefeed (Cluster #79)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1075,
+    connectionPoolSize: 31,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-080',
+    name: 'PostgreSQL CDC Connector (Cluster #80)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 100,
+    connectionPoolSize: 32,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-081',
+    name: 'MySQL Debezium CDC (Cluster #81)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 125,
+    connectionPoolSize: 33,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-082',
+    name: 'Oracle GoldenGate Stream (Cluster #82)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 150,
+    connectionPoolSize: 34,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-083',
+    name: 'SQL Server CDC Engine (Cluster #83)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 175,
+    connectionPoolSize: 35,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-084',
+    name: 'CockroachDB Changefeed (Cluster #84)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 200,
+    connectionPoolSize: 36,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-085',
+    name: 'PostgreSQL CDC Connector (Cluster #85)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 225,
+    connectionPoolSize: 37,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-086',
+    name: 'MySQL Debezium CDC (Cluster #86)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 250,
+    connectionPoolSize: 38,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-087',
+    name: 'Oracle GoldenGate Stream (Cluster #87)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 275,
+    connectionPoolSize: 39,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-088',
+    name: 'SQL Server CDC Engine (Cluster #88)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 300,
+    connectionPoolSize: 40,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-089',
+    name: 'CockroachDB Changefeed (Cluster #89)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 325,
+    connectionPoolSize: 41,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-090',
+    name: 'PostgreSQL CDC Connector (Cluster #90)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 350,
+    connectionPoolSize: 42,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-091',
+    name: 'MySQL Debezium CDC (Cluster #91)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 375,
+    connectionPoolSize: 43,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-092',
+    name: 'Oracle GoldenGate Stream (Cluster #92)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 400,
+    connectionPoolSize: 44,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-093',
+    name: 'SQL Server CDC Engine (Cluster #93)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 425,
+    connectionPoolSize: 45,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-094',
+    name: 'CockroachDB Changefeed (Cluster #94)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 450,
+    connectionPoolSize: 46,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-095',
+    name: 'PostgreSQL CDC Connector (Cluster #95)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 475,
+    connectionPoolSize: 47,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-096',
+    name: 'MySQL Debezium CDC (Cluster #96)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 500,
+    connectionPoolSize: 16,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-097',
+    name: 'Oracle GoldenGate Stream (Cluster #97)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 525,
+    connectionPoolSize: 17,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-098',
+    name: 'SQL Server CDC Engine (Cluster #98)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 550,
+    connectionPoolSize: 18,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-099',
+    name: 'CockroachDB Changefeed (Cluster #99)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 575,
+    connectionPoolSize: 19,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-100',
+    name: 'PostgreSQL CDC Connector (Cluster #100)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 600,
+    connectionPoolSize: 20,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-101',
+    name: 'MySQL Debezium CDC (Cluster #101)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 625,
+    connectionPoolSize: 21,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-102',
+    name: 'Oracle GoldenGate Stream (Cluster #102)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 650,
+    connectionPoolSize: 22,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-103',
+    name: 'SQL Server CDC Engine (Cluster #103)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 675,
+    connectionPoolSize: 23,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-104',
+    name: 'CockroachDB Changefeed (Cluster #104)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 700,
+    connectionPoolSize: 24,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-105',
+    name: 'PostgreSQL CDC Connector (Cluster #105)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 725,
+    connectionPoolSize: 25,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-106',
+    name: 'MySQL Debezium CDC (Cluster #106)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 750,
+    connectionPoolSize: 26,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-107',
+    name: 'Oracle GoldenGate Stream (Cluster #107)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 775,
+    connectionPoolSize: 27,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-108',
+    name: 'SQL Server CDC Engine (Cluster #108)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 800,
+    connectionPoolSize: 28,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-109',
+    name: 'CockroachDB Changefeed (Cluster #109)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 825,
+    connectionPoolSize: 29,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-110',
+    name: 'PostgreSQL CDC Connector (Cluster #110)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 850,
+    connectionPoolSize: 30,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-111',
+    name: 'MySQL Debezium CDC (Cluster #111)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 875,
+    connectionPoolSize: 31,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-112',
+    name: 'Oracle GoldenGate Stream (Cluster #112)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 900,
+    connectionPoolSize: 32,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-113',
+    name: 'SQL Server CDC Engine (Cluster #113)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 925,
+    connectionPoolSize: 33,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-114',
+    name: 'CockroachDB Changefeed (Cluster #114)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 950,
+    connectionPoolSize: 34,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-115',
+    name: 'PostgreSQL CDC Connector (Cluster #115)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 975,
+    connectionPoolSize: 35,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-116',
+    name: 'MySQL Debezium CDC (Cluster #116)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1000,
+    connectionPoolSize: 36,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-117',
+    name: 'Oracle GoldenGate Stream (Cluster #117)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'STREAMING',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1025,
+    connectionPoolSize: 37,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-118',
+    name: 'SQL Server CDC Engine (Cluster #118)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1050,
+    connectionPoolSize: 38,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-119',
+    name: 'CockroachDB Changefeed (Cluster #119)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 1075,
+    connectionPoolSize: 39,
+    supportsSchemaEvolution: true,
+    supportsTransactions: false,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  },
+  {
+    connectorId: 'CONN-SQL-120',
+    name: 'PostgreSQL CDC Connector (Cluster #120)',
+    category: 'RelationalSQLConnectors',
+    protocolType: 'BATCH_CDC',
+    supportedCompression: [
+      'SNAPPY',
+      'ZSTD',
+      'GZIP'
+    ],
+    maxThroughputMbPerSec: 100,
+    connectionPoolSize: 40,
+    supportsSchemaEvolution: true,
+    supportsTransactions: true,
+    keepAliveTimeoutSeconds: 120,
+    metricsCollectionIntervalSec: 10
+  }
+];
