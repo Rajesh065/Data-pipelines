@@ -1,0 +1,2575 @@
+/**
+ * Data Quality & Great Expectations Ruleset: StringFormatAndRegexValidators
+ * Description: ISO-8601 timestamps, UUIDv4 identifiers, email formats, and custom regex expressions
+ */
+
+export interface DataQualityRule {
+  assertionId: string;
+  ruleName: string;
+  category: string;
+  targetTable: string;
+  targetColumn: string;
+  evaluationEngine: string;
+  isBlocking: boolean;
+  alertSeverity: string;
+  autoRemediationAction: string;
+  thresholdConfig: {
+    minPassingRatio: number;
+    maxAllowedFailedRows: number;
+    evaluationSamplePercentage: number;
+    publishIncidentWebhook: boolean;
+  };
+}
+
+export const QUALITY_SFR_DATASET: DataQualityRule[] = [
+  {
+    assertionId: 'ASSERT-SFR-001',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #1',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_1',
+    targetColumn: 'column_attr_1',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-002',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #2',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_2',
+    targetColumn: 'column_attr_2',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-003',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #3',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_3',
+    targetColumn: 'column_attr_3',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-004',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #4',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_4',
+    targetColumn: 'column_attr_4',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-005',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #5',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_5',
+    targetColumn: 'column_attr_5',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-006',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #6',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_6',
+    targetColumn: 'column_attr_6',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-007',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #7',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_7',
+    targetColumn: 'column_attr_7',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-008',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #8',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_8',
+    targetColumn: 'column_attr_8',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-009',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #9',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_9',
+    targetColumn: 'column_attr_9',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-010',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #10',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_10',
+    targetColumn: 'column_attr_10',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-011',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #11',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_11',
+    targetColumn: 'column_attr_11',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-012',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #12',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_12',
+    targetColumn: 'column_attr_12',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-013',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #13',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_13',
+    targetColumn: 'column_attr_13',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-014',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #14',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_14',
+    targetColumn: 'column_attr_14',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-015',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #15',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_15',
+    targetColumn: 'column_attr_15',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-016',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #16',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_16',
+    targetColumn: 'column_attr_16',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-017',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #17',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_17',
+    targetColumn: 'column_attr_17',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-018',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #18',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_18',
+    targetColumn: 'column_attr_18',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-019',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #19',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_19',
+    targetColumn: 'column_attr_19',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-020',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #20',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_20',
+    targetColumn: 'column_attr_0',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-021',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #21',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_21',
+    targetColumn: 'column_attr_1',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-022',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #22',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_22',
+    targetColumn: 'column_attr_2',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-023',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #23',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_23',
+    targetColumn: 'column_attr_3',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-024',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #24',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_24',
+    targetColumn: 'column_attr_4',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-025',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #25',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_25',
+    targetColumn: 'column_attr_5',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-026',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #26',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_26',
+    targetColumn: 'column_attr_6',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-027',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #27',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_27',
+    targetColumn: 'column_attr_7',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-028',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #28',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_28',
+    targetColumn: 'column_attr_8',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-029',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #29',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_29',
+    targetColumn: 'column_attr_9',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-030',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #30',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_0',
+    targetColumn: 'column_attr_10',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-031',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #31',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_1',
+    targetColumn: 'column_attr_11',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-032',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #32',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_2',
+    targetColumn: 'column_attr_12',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-033',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #33',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_3',
+    targetColumn: 'column_attr_13',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-034',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #34',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_4',
+    targetColumn: 'column_attr_14',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-035',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #35',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_5',
+    targetColumn: 'column_attr_15',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-036',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #36',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_6',
+    targetColumn: 'column_attr_16',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-037',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #37',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_7',
+    targetColumn: 'column_attr_17',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-038',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #38',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_8',
+    targetColumn: 'column_attr_18',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-039',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #39',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_9',
+    targetColumn: 'column_attr_19',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-040',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #40',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_10',
+    targetColumn: 'column_attr_0',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-041',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #41',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_11',
+    targetColumn: 'column_attr_1',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-042',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #42',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_12',
+    targetColumn: 'column_attr_2',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-043',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #43',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_13',
+    targetColumn: 'column_attr_3',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-044',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #44',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_14',
+    targetColumn: 'column_attr_4',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-045',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #45',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_15',
+    targetColumn: 'column_attr_5',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-046',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #46',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_16',
+    targetColumn: 'column_attr_6',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-047',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #47',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_17',
+    targetColumn: 'column_attr_7',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-048',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #48',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_18',
+    targetColumn: 'column_attr_8',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-049',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #49',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_19',
+    targetColumn: 'column_attr_9',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-050',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #50',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_20',
+    targetColumn: 'column_attr_10',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-051',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #51',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_21',
+    targetColumn: 'column_attr_11',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-052',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #52',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_22',
+    targetColumn: 'column_attr_12',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-053',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #53',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_23',
+    targetColumn: 'column_attr_13',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-054',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #54',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_24',
+    targetColumn: 'column_attr_14',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-055',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #55',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_25',
+    targetColumn: 'column_attr_15',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-056',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #56',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_26',
+    targetColumn: 'column_attr_16',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-057',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #57',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_27',
+    targetColumn: 'column_attr_17',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-058',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #58',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_28',
+    targetColumn: 'column_attr_18',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-059',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #59',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_29',
+    targetColumn: 'column_attr_19',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-060',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #60',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_0',
+    targetColumn: 'column_attr_0',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-061',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #61',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_1',
+    targetColumn: 'column_attr_1',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-062',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #62',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_2',
+    targetColumn: 'column_attr_2',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-063',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #63',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_3',
+    targetColumn: 'column_attr_3',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-064',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #64',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_4',
+    targetColumn: 'column_attr_4',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-065',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #65',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_5',
+    targetColumn: 'column_attr_5',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-066',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #66',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_6',
+    targetColumn: 'column_attr_6',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-067',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #67',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_7',
+    targetColumn: 'column_attr_7',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-068',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #68',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_8',
+    targetColumn: 'column_attr_8',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-069',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #69',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_9',
+    targetColumn: 'column_attr_9',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-070',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #70',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_10',
+    targetColumn: 'column_attr_10',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-071',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #71',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_11',
+    targetColumn: 'column_attr_11',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-072',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #72',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_12',
+    targetColumn: 'column_attr_12',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-073',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #73',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_13',
+    targetColumn: 'column_attr_13',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-074',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #74',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_14',
+    targetColumn: 'column_attr_14',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-075',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #75',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_15',
+    targetColumn: 'column_attr_15',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-076',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #76',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_16',
+    targetColumn: 'column_attr_16',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-077',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #77',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_17',
+    targetColumn: 'column_attr_17',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-078',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #78',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_18',
+    targetColumn: 'column_attr_18',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-079',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #79',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_19',
+    targetColumn: 'column_attr_19',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-080',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #80',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_20',
+    targetColumn: 'column_attr_0',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-081',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #81',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_21',
+    targetColumn: 'column_attr_1',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-082',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #82',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_22',
+    targetColumn: 'column_attr_2',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-083',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #83',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_23',
+    targetColumn: 'column_attr_3',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-084',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #84',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_24',
+    targetColumn: 'column_attr_4',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-085',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #85',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_25',
+    targetColumn: 'column_attr_5',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-086',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #86',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_26',
+    targetColumn: 'column_attr_6',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-087',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #87',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_27',
+    targetColumn: 'column_attr_7',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-088',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #88',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_28',
+    targetColumn: 'column_attr_8',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-089',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #89',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_29',
+    targetColumn: 'column_attr_9',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-090',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #90',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_0',
+    targetColumn: 'column_attr_10',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-091',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #91',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_1',
+    targetColumn: 'column_attr_11',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-092',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #92',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_2',
+    targetColumn: 'column_attr_12',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-093',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #93',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_3',
+    targetColumn: 'column_attr_13',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-094',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #94',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_4',
+    targetColumn: 'column_attr_14',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-095',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #95',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_5',
+    targetColumn: 'column_attr_15',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-096',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #96',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_6',
+    targetColumn: 'column_attr_16',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-097',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #97',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_7',
+    targetColumn: 'column_attr_17',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-098',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #98',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_8',
+    targetColumn: 'column_attr_18',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-099',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #99',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_9',
+    targetColumn: 'column_attr_19',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-100',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #100',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_10',
+    targetColumn: 'column_attr_0',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-101',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #101',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_11',
+    targetColumn: 'column_attr_1',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-102',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #102',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_12',
+    targetColumn: 'column_attr_2',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-103',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #103',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_13',
+    targetColumn: 'column_attr_3',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-104',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #104',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_14',
+    targetColumn: 'column_attr_4',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-105',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #105',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_15',
+    targetColumn: 'column_attr_5',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-106',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #106',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_16',
+    targetColumn: 'column_attr_6',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-107',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #107',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_17',
+    targetColumn: 'column_attr_7',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-108',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #108',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_18',
+    targetColumn: 'column_attr_8',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-109',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #109',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_19',
+    targetColumn: 'column_attr_9',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-110',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #110',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_20',
+    targetColumn: 'column_attr_10',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-111',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #111',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_21',
+    targetColumn: 'column_attr_11',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-112',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #112',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_22',
+    targetColumn: 'column_attr_12',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-113',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #113',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_23',
+    targetColumn: 'column_attr_13',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-114',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #114',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_24',
+    targetColumn: 'column_attr_14',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-115',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #115',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_25',
+    targetColumn: 'column_attr_15',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-116',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #116',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_26',
+    targetColumn: 'column_attr_16',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-117',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #117',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_27',
+    targetColumn: 'column_attr_17',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-118',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #118',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_28',
+    targetColumn: 'column_attr_18',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-119',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #119',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_29',
+    targetColumn: 'column_attr_19',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-120',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #120',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_0',
+    targetColumn: 'column_attr_0',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-121',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #121',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_1',
+    targetColumn: 'column_attr_1',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-122',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #122',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_2',
+    targetColumn: 'column_attr_2',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-123',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #123',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_3',
+    targetColumn: 'column_attr_3',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-124',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #124',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_4',
+    targetColumn: 'column_attr_4',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-125',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #125',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_5',
+    targetColumn: 'column_attr_5',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-126',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #126',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_6',
+    targetColumn: 'column_attr_6',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-127',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #127',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_7',
+    targetColumn: 'column_attr_7',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-128',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #128',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_8',
+    targetColumn: 'column_attr_8',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-129',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #129',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_9',
+    targetColumn: 'column_attr_9',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-130',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #130',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_10',
+    targetColumn: 'column_attr_10',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-131',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #131',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_11',
+    targetColumn: 'column_attr_11',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-132',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #132',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_12',
+    targetColumn: 'column_attr_12',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-133',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #133',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_13',
+    targetColumn: 'column_attr_13',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-134',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #134',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_14',
+    targetColumn: 'column_attr_14',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-135',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #135',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_15',
+    targetColumn: 'column_attr_15',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-136',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #136',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_16',
+    targetColumn: 'column_attr_16',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-137',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #137',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_17',
+    targetColumn: 'column_attr_17',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-138',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #138',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_18',
+    targetColumn: 'column_attr_18',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-139',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #139',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_19',
+    targetColumn: 'column_attr_19',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-140',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #140',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_20',
+    targetColumn: 'column_attr_0',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-141',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #141',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_21',
+    targetColumn: 'column_attr_1',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-142',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #142',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_22',
+    targetColumn: 'column_attr_2',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-143',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #143',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_23',
+    targetColumn: 'column_attr_3',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-144',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #144',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_24',
+    targetColumn: 'column_attr_4',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-145',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #145',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_25',
+    targetColumn: 'column_attr_5',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-146',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #146',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_26',
+    targetColumn: 'column_attr_6',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-147',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #147',
+    category: 'and custom regex expressions',
+    targetTable: 'enterprise_data_mart.table_27',
+    targetColumn: 'column_attr_7',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-148',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #148',
+    category: 'ISO-8601 timestamps',
+    targetTable: 'enterprise_data_mart.table_28',
+    targetColumn: 'column_attr_8',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-149',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #149',
+    category: 'UUIDv4 identifiers',
+    targetTable: 'enterprise_data_mart.table_29',
+    targetColumn: 'column_attr_9',
+    evaluationEngine: 'GREAT_EXPECTATIONS',
+    isBlocking: false,
+    alertSeverity: 'HIGH_P2',
+    autoRemediationAction: 'RETRY_STAGE_WITH_BACKOFF',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  },
+  {
+    assertionId: 'ASSERT-SFR-150',
+    ruleName: 'StringFormatAndRegexValidators Assertion Check #150',
+    category: 'email formats',
+    targetTable: 'enterprise_data_mart.table_0',
+    targetColumn: 'column_attr_10',
+    evaluationEngine: 'SQL_ASSERTION',
+    isBlocking: true,
+    alertSeverity: 'CRITICAL_P1',
+    autoRemediationAction: 'QUARANTINE_ROW_TO_DLQ',
+    thresholdConfig: {
+      minPassingRatio: 0.9995,
+      maxAllowedFailedRows: 10,
+      evaluationSamplePercentage: 100,
+      publishIncidentWebhook: true
+    }
+  }
+];
