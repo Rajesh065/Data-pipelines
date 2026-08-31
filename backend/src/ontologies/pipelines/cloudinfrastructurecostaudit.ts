@@ -1,0 +1,4540 @@
+/**
+ * Enterprise Data Pipeline DAG Specification: CloudInfrastructureCostAudit
+ * Domain Focus: Multi-cloud AWS/Azure/GCP billing itemization, unallocated resource tagging, and anomaly alerting
+ * Standard: DataFlow OS Orchestration Engine
+ */
+
+export interface EnterprisePipelineDAG {
+  dagId: string;
+  pipelineName: string;
+  domain: string;
+  category: string;
+  cronSchedule: string;
+  sourceProtocol: string;
+  sinkProtocol: string;
+  batchSizeRecords: number;
+  maxParallelTasks: number;
+  slaThresholdMinutes: number;
+  retryPolicy: {
+    maxRetries: number;
+    backoffExponentialFactor: number;
+    initialDelaySeconds: number;
+    maxDelaySeconds: number;
+    retryOnTransientNetworkErrors: boolean;
+  };
+  validationAssertionsCount: number;
+  lineageTrackedColumns: string[];
+  executionEngine: string;
+  isActiveProduction: boolean;
+}
+
+export const PIPELINE_FINOPS_DATASET: EnterprisePipelineDAG[] = [
+  {
+    dagId: 'DAG-FINOPS-001',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #1',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '1 1 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 16,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-002',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #2',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '2 2 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 17,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-003',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #3',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '3 3 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 18,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-004',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #4',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '4 4 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 19,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-005',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #5',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '5 5 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 20,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-006',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #6',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '6 6 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 21,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-007',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #7',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '7 7 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 22,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-008',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #8',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '8 8 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 23,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-009',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #9',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '9 9 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 24,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-010',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #10',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '10 10 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 25,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-011',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #11',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '11 11 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 160000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 26,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-012',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #12',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '12 12 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 170000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 27,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-013',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #13',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '13 13 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 180000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 28,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-014',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #14',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '14 14 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 190000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 29,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-015',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #15',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '15 15 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 200000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 30,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-016',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #16',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '16 16 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 210000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 31,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-017',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #17',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '17 17 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 220000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 32,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-018',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #18',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '18 18 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 230000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 33,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-019',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #19',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '19 19 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 240000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 34,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-020',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #20',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '20 20 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 50000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 35,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-021',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #21',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '21 21 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 36,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-022',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #22',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '22 22 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 37,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-023',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #23',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '23 23 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 38,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-024',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #24',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '24 0 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 39,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-025',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #25',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '25 1 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 40,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-026',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #26',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '26 2 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 41,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-027',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #27',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '27 3 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 42,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-028',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #28',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '28 4 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 43,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-029',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #29',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '29 5 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 44,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-030',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #30',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '30 6 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 45,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-031',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #31',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '31 7 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 160000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 46,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-032',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #32',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '32 8 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 170000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 47,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-033',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #33',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '33 9 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 180000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 48,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-034',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #34',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '34 10 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 190000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 49,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-035',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #35',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '35 11 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 200000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 50,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-036',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #36',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '36 12 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 210000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 51,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-037',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #37',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '37 13 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 220000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 52,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-038',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #38',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '38 14 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 230000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 53,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-039',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #39',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '39 15 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 240000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 54,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-040',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #40',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '40 16 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 50000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 55,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-041',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #41',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '41 17 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 56,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-042',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #42',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '42 18 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 57,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-043',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #43',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '43 19 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 58,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-044',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #44',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '44 20 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 59,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-045',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #45',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '45 21 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 15,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-046',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #46',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '46 22 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 16,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-047',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #47',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '47 23 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 17,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-048',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #48',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '48 0 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 18,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-049',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #49',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '49 1 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 19,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-050',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #50',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '50 2 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 20,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-051',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #51',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '51 3 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 160000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 21,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-052',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #52',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '52 4 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 170000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 22,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-053',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #53',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '53 5 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 180000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 23,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-054',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #54',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '54 6 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 190000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 24,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-055',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #55',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '55 7 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 200000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 25,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-056',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #56',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '56 8 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 210000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 26,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-057',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #57',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '57 9 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 220000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 27,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-058',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #58',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '58 10 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 230000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 28,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-059',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #59',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '59 11 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 240000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 29,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-060',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #60',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '0 12 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 50000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 30,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-061',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #61',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '1 13 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 31,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-062',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #62',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '2 14 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 32,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-063',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #63',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '3 15 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 33,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-064',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #64',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '4 16 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 34,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-065',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #65',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '5 17 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 35,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-066',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #66',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '6 18 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 36,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-067',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #67',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '7 19 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 37,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-068',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #68',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '8 20 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 38,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-069',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #69',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '9 21 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 39,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-070',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #70',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '10 22 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 40,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-071',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #71',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '11 23 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 160000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 41,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-072',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #72',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '12 0 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 170000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 42,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-073',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #73',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '13 1 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 180000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 43,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-074',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #74',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '14 2 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 190000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 44,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-075',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #75',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '15 3 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 200000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 45,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-076',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #76',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '16 4 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 210000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 46,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-077',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #77',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '17 5 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 220000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 47,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-078',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #78',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '18 6 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 230000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 48,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-079',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #79',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '19 7 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 240000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 49,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-080',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #80',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '20 8 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 50000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 50,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-081',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #81',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '21 9 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 51,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-082',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #82',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '22 10 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 52,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-083',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #83',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '23 11 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 53,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-084',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #84',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '24 12 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 54,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-085',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #85',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '25 13 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 55,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-086',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #86',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '26 14 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 56,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-087',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #87',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '27 15 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 57,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-088',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #88',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '28 16 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 58,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-089',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #89',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '29 17 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 59,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-090',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #90',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '30 18 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 15,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-091',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #91',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '31 19 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 160000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 16,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-092',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #92',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '32 20 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 170000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 17,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-093',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #93',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '33 21 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 180000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 18,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-094',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #94',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '34 22 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 190000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 19,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-095',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #95',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '35 23 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 200000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 20,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-096',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #96',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '36 0 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 210000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 21,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-097',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #97',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '37 1 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 220000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 22,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-098',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #98',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '38 2 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 230000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 23,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-099',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #99',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '39 3 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 240000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 24,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-100',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #100',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '40 4 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 50000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 25,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-101',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #101',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '41 5 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 26,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-102',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #102',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '42 6 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 27,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-103',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #103',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '43 7 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 28,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-104',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #104',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '44 8 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 29,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-105',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #105',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '45 9 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 30,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-106',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #106',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '46 10 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 31,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-107',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #107',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '47 11 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 32,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-108',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #108',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '48 12 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 33,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-109',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #109',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '49 13 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 34,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-110',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #110',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '50 14 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 35,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-111',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #111',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '51 15 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 160000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 36,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-112',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #112',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '52 16 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 170000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 37,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-113',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #113',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '53 17 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 180000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 38,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-114',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #114',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '54 18 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 190000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 39,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-115',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #115',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '55 19 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 200000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 40,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-116',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #116',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '56 20 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 210000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 41,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-117',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #117',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '57 21 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 220000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 42,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-118',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #118',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '58 22 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 230000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 43,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-119',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #119',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '59 23 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 240000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 44,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-120',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #120',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '0 0 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 50000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 45,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-121',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #121',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '1 1 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 46,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-122',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #122',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '2 2 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 47,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-123',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #123',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '3 3 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 48,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-124',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #124',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '4 4 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 49,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-125',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #125',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '5 5 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 50,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-126',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #126',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '6 6 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 51,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-127',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #127',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '7 7 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 52,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-128',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #128',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '8 8 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 53,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-129',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #129',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '9 9 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 54,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-130',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #130',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '10 10 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 55,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-131',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #131',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '11 11 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 160000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 56,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-132',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #132',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '12 12 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 170000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 57,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-133',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #133',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '13 13 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 180000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 58,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-134',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #134',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '14 14 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 190000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 59,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-135',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #135',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '15 15 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 200000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 15,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 15,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-136',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #136',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '16 16 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 210000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 16,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 16,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-137',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #137',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '17 17 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 220000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 17,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 17,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-138',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #138',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '18 18 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 230000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 18,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 18,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-139',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #139',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '19 19 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 240000,
+    maxParallelTasks: 11,
+    slaThresholdMinutes: 19,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 19,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-140',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #140',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '20 20 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 50000,
+    maxParallelTasks: 12,
+    slaThresholdMinutes: 20,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 20,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-141',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #141',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '21 21 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 60000,
+    maxParallelTasks: 13,
+    slaThresholdMinutes: 21,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 21,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-142',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #142',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '22 22 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 70000,
+    maxParallelTasks: 14,
+    slaThresholdMinutes: 22,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 22,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-143',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #143',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '23 23 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 80000,
+    maxParallelTasks: 15,
+    slaThresholdMinutes: 23,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 23,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-144',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #144',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '24 0 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 90000,
+    maxParallelTasks: 4,
+    slaThresholdMinutes: 24,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 8,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-145',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #145',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '25 1 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 100000,
+    maxParallelTasks: 5,
+    slaThresholdMinutes: 25,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 9,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-146',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #146',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '26 2 * * *',
+    sourceProtocol: 'SNOWFLAKE',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 110000,
+    maxParallelTasks: 6,
+    slaThresholdMinutes: 26,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 10,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-147',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #147',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '27 3 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 120000,
+    maxParallelTasks: 7,
+    slaThresholdMinutes: 27,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 11,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-148',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #148',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'unallocated resource tagging',
+    cronSchedule: '28 4 * * *',
+    sourceProtocol: 'POSTGRES',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 130000,
+    maxParallelTasks: 8,
+    slaThresholdMinutes: 28,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 12,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-149',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #149',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'and anomaly alerting',
+    cronSchedule: '29 5 * * *',
+    sourceProtocol: 'ICEBERG',
+    sinkProtocol: 'BIGQUERY',
+    batchSizeRecords: 140000,
+    maxParallelTasks: 9,
+    slaThresholdMinutes: 29,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 13,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'DBT_CORE_RUNNER',
+    isActiveProduction: true
+  },
+  {
+    dagId: 'DAG-FINOPS-150',
+    pipelineName: 'CloudInfrastructureCostAudit Production Workflow #150',
+    domain: 'CloudInfrastructureCostAudit',
+    category: 'Multi-cloud AWS/Azure/GCP billing itemization',
+    cronSchedule: '30 6 * * *',
+    sourceProtocol: 'KAFKA',
+    sinkProtocol: 'SNOWFLAKE',
+    batchSizeRecords: 150000,
+    maxParallelTasks: 10,
+    slaThresholdMinutes: 30,
+    retryPolicy: {
+      maxRetries: 3,
+      backoffExponentialFactor: 2.0,
+      initialDelaySeconds: 30,
+      maxDelaySeconds: 300,
+      retryOnTransientNetworkErrors: true
+    },
+    validationAssertionsCount: 14,
+    lineageTrackedColumns: [
+      'record_id',
+      'source_timestamp',
+      'payload_hash',
+      'cleared_amount',
+      'tenant_id',
+      'audit_checksum'
+    ],
+    executionEngine: 'APACHE_SPARK_CATALYST',
+    isActiveProduction: true
+  }
+];
+
+export class FINOPS_PipelineCatalog {
+  static search(query: string): EnterprisePipelineDAG[] {
+    const q = query.toLowerCase().trim();
+    if (!q) return PIPELINE_FINOPS_DATASET.slice(0, 20);
+    return PIPELINE_FINOPS_DATASET.filter(p => p.pipelineName.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+  }
+}
