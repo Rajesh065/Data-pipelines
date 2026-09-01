@@ -1,0 +1,21 @@
+{
+  "name": "dataflow-pipelines-platform",
+  "version": "1.0.0",
+  "description": "Enterprise Data Pipelines, DAG Scheduler, dbt SQL Engine & Quality Platform",
+  "private": true,
+  "license": "UNLICENSED",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev:backend": "npm run dev --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
